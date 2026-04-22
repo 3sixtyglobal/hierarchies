@@ -5,7 +5,7 @@ This package provides a connector for managing federations, authorities, and pro
 ## Creating a Connector
 
 ```typescript
-import { EntityStorageHierarchiesConnector } from '@twin.org/hierarchies-connector-entity-storage';
+import { EntityStorageHierarchiesConnector } from "@twin.org/hierarchies-connector-entity-storage";
 
 const connector = new EntityStorageHierarchiesConnector();
 ```
@@ -13,27 +13,27 @@ const connector = new EntityStorageHierarchiesConnector();
 ## Creating a Federation
 
 ```typescript
-const federationId = await connector.federationCreate('controller-identity');
+const federationId = await connector.federationCreate("controller-identity");
 console.log(federationId); // "urn:entity-storage:federation:..."
 ```
 
 ## Adding a Property Using PropertyType Enum
 
 ```typescript
-import { PropertyType } from '@twin.org/hierarchies-models';
+import { PropertyType } from "@twin.org/hierarchies-models";
 
 const property = {
-  name: 'access.level',
-  allowedValues: [{ type: PropertyType.String, value: 'admin' }]
+  name: "access.level",
+  allowedValues: [{ type: PropertyType.String, value: "admin" }]
 };
-await connector.propertyAdd('controller-identity', federationId, property);
+await connector.propertyAdd("controller-identity", federationId, property);
 ```
 
 ## Adding and Removing an Authority
 
 ```typescript
-const authorityId = await connector.authorityAdd('controller-identity', federationId, 'account-2');
-await connector.authorityRemove('controller-identity', federationId, 'account-2');
+const authorityId = await connector.authorityAdd("controller-identity", federationId, "account-2");
+await connector.authorityRemove("controller-identity", federationId, "account-2");
 ```
 
 ## Getting a Federation and Its Properties
