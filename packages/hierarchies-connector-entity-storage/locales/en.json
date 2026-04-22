@@ -1,0 +1,33 @@
+{
+	"error": {
+		"entityStorageHierarchiesConnector": {
+			"federationNotFound": "Federation not found \"{notFoundId}\"",
+			"federationCreateFailed": "Failed to create federation",
+			"federationGetFailed": "Failed to retrieve federation",
+
+			"authorityAddFailed": "Failed to add authority",
+			"authorityRemoveFailed": "Failed to remove authority",
+			"propertyAddFailed": "Failed to add property",
+			"propertyRemoveFailed": "Failed to remove property",
+			"propertyGetFailed": "Failed to retrieve property",
+			"propertyNotFound": "Property not found \"{notFoundId}\"",
+			"propertiesGetFailed": "Failed to retrieve properties",
+			"accreditationToAttestAddFailed": "Failed to add accreditation to attest",
+			"accreditationToAttestRemoveFailed": "Failed to remove accreditation to attest",
+			"accreditationToAttestGetFailed": "Failed to retrieve accreditation to attest",
+			"accreditationsToAttestGetFailed": "Failed to retrieve accreditations to attest",
+			"accreditationToAccreditAddFailed": "Failed to add accreditation to accredit",
+			"accreditationToAccreditRemoveFailed": "Failed to remove accreditation to accredit",
+			"accreditationToAccreditGetFailed": "Failed to retrieve accreditation to accredit",
+			"accreditationsToAccreditGetFailed": "Failed to retrieve accreditations to accredit",
+			"accreditationNotFound": "Accreditation not found \"{notFoundId}\"",
+			"notController": "Only the controller can perform this action",
+			"authorityAlreadyExists": "Authority already exists for account \"{accountId}\"",
+			"authorityNotFound": "Authority not found for account \"{notFoundId}\"",
+			"propertyDuplicate": "A property with this name already exists and is not revoked",
+			"accreditationPropertyMissing": "Accreditation property \"{propertyName}\" is missing in the federation",
+			"accreditationPropertyRevoked": "Accreditation property \"{propertyName}\" is revoked in the federation",
+			"namespaceMismatch": "URN namespace does not match expected namespace \"{namespace}\" for id \"{id}\""
+		}
+	}
+}

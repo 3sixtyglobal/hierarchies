@@ -1,0 +1,25 @@
+{
+	"openapi": "3.1.1",
+	"info": {
+		"title": "TWIN - Test Endpoints",
+		"description": "REST API for TWIN - Test Endpoints.",
+		"version": "1.0.0",
+		"license": {
+			"name": "Apache 2.0 License",
+			"url": "https://opensource.org/licenses/Apache-2.0"
+		}
+	},
+	"servers": [
+		{
+			"url": "https://localhost"
+		}
+	],
+	"tags": [
+		{
+			"name": "Hierarchies",
+			"description": "Endpoints which are modelled to access an Hierarchies contract."
+		}
+	],
+	"paths": {
+	}
+}

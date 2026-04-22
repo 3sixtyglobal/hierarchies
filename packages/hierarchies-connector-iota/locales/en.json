@@ -1,0 +1,50 @@
+{
+	"info": {
+		"iotaHierarchiesConnector": {}
+	},
+	"error": {
+		"iotaHierarchiesConnector": {
+			"noRootAuthority": "Root authority with account id \"{notFoundId}\" not found",
+			"permissionNotFound": "Permission with id \"{notFoundId}\" not found",
+			"namespaceMismatch": "The hierarchy id \"{id}\" is not in the expected namespace \"{namespace}\"",
+			"creationFailedOutput": "Failed to parse the created hierarchy from transaction output",
+			"creationFailed": "Failed to create federation",
+			"getFailed": "Failed to get federation",
+			"authorityAddFailed": "Failed to add authority to federation",
+			"authorityRemoveFailed": "Failed to remove authority from federation",
+			"propertyAddFailed": "Failed to add property to federation",
+			"propertyRemoveFailed": "Failed to remove property from federation",
+			"propertyNotFound": "Property with id \"{notFoundId}\" not found",
+			"propertyGetFailed": "Failed to get property",
+			"propertiesGetFailed": "Failed to get properties",
+			"propertyValidateFailed": "Failed to validate property",
+			"propertiesValidateFailed": "Failed to validate properties",
+			"accreditationToAttestAddFailed": "Failed to add accreditation to attest",
+			"accreditationToAttestRemoveFailed": "Failed to remove accreditation to attest",
+			"accreditationToAccreditAddFailed": "Failed to add accreditation to accredit",
+			"accreditationToAccreditRemoveFailed": "Failed to remove accreditation to accredit",
+			"accreditationToAttestGetFailed": "Failed to get accreditation to attest",
+			"accreditationsToAttestGetFailed": "Failed to get accreditations to attest",
+			"accreditationToAccreditGetFailed": "Failed to get accreditation to accredit",
+			"accreditationsToAccreditGetFailed": "Failed to get accreditations to accredit",
+			"invalidAllowedValueType": "Invalid allowed value type \"{type}\"",
+			"invalidPropertyValueConditionConstraint": "Invalid property value condition constraint \"{constraint}\"",
+			"invalidPropertyType": "Invalid property type \"{type}\"",
+			"wrongFederation": "The federation is incorrect",
+			"insufficientAccreditationToAccredit": "The account does not have sufficient accreditation to accredit",
+			"invalidPropertyValueCondition": "Invalid property value condition",
+			"accreditationNotFound": "Accreditation not found",
+			"timestampMustBeInTheFuture": "The timestamp must be in the future",
+			"propertyNotInFederation": "The property is not part of the federation",
+			"rootAuthorityNotFound": "Root authority not found",
+			"cannotRevokeLastRootAuthority": "Cannot revoke the last root authority",
+			"revokedRootAuthority": "The root authority has already been revoked",
+			"emptyAllowedValuesWithoutAllowAny": "Allowed values cannot be empty if allow any value is not allowed",
+			"alreadyRootAuthority": "The account is already a root authority",
+			"notRevokedRootAuthority": "The account is not a revoked root authority",
+			"propertyRevoked": "The property has already been revoked",
+			"propertyAlreadyExists": "A property with the same name already exists in the federation",
+			"unknownAbortCode": "An unknown abort code was returned: \"{abortCode}\""
+		}
+	}
+}

@@ -1,0 +1,3 @@
+{
+	"ignoreRegExpList": ["```typescript[\\s\\S]*?```"]
+}
