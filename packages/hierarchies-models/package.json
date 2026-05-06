@@ -4,7 +4,7 @@
 	"description": "Shared interfaces, request and response models, and connector contracts.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/twinfoundation/hierarchies.git",
+		"url": "git+https://github.com/iotaledger/hierarchies.git",
 		"directory": "packages/hierarchies-models"
 	},
 	"author": "martyn.janes@iota.org",
@@ -76,7 +76,7 @@
 		"schemas"
 	],
 	"bugs": {
-		"url": "git+https://github.com/twinfoundation/hierarchies/issues"
+		"url": "git+https://github.com/iotaledger/hierarchies/issues"
 	},
 	"homepage": "https://twindev.org"
 }

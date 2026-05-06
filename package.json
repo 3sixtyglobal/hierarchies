@@ -4,7 +4,7 @@
 	"description": "Modular Hierarchies connectors, services, and tooling.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/twinfoundation/hierarchies.git"
+		"url": "git+https://github.com/iotaledger/hierarchies.git"
 	},
 	"author": "martyn.janes@iota.org",
 	"license": "Apache-2.0",
@@ -62,7 +62,7 @@
 	],
 	"type": "module",
 	"bugs": {
-		"url": "git+https://github.com/twinfoundation/hierarchies/issues"
+		"url": "git+https://github.com/iotaledger/hierarchies/issues"
 	},
 	"homepage": "https://twindev.org"
 }
