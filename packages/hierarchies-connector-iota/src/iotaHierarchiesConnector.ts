@@ -32,12 +32,11 @@ import {
 import type { ILoggingComponent } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import { VaultConnectorFactory, type IVaultConnector } from "@twin.org/vault-models";
-import { WalletConnectorFactory, type IWalletConnector } from "@twin.org/wallet-models";
 import type { IIotaHierarchiesConnectorConfig } from "./models/IIotaHierarchiesConnectorConfig.js";
 import type { IIotaHierarchiesConnectorConstructorOptions } from "./models/IIotaHierarchiesConnectorConstructorOptions.js";
 
 /**
- * Dummy IOTA connector for hierarchies scaffolding.
+ * IOTA connector for hierarchies.
  */
 export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	/**
@@ -63,12 +62,6 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	private readonly _vaultConnector: IVaultConnector;
 
 	/**
-	 * The wallet connector.
-	 * @internal
-	 */
-	private readonly _walletConnector: IWalletConnector;
-
-	/**
 	 * The logging component.
 	 * @internal
 	 */
@@ -84,7 +77,6 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 		this._config = options.config;
 		Iota.populateConfig(this._config);
 		this._vaultConnector = VaultConnectorFactory.get(options.vaultConnectorType ?? "vault");
-		this._walletConnector = WalletConnectorFactory.get(options.walletConnectorType ?? "wallet");
 		this._logging = ComponentFactory.getIfExists(options?.loggingComponentType ?? "logging");
 	}
 
@@ -901,13 +893,12 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	 */
 	private async buildWritableClient(controllerIdentity: string): Promise<HierarchiesClient> {
 		const readOnlyClient = await this.buildReadOnlyClient();
-		const address = await this.getControllerAddress(controllerIdentity);
 
-		const seed = await Iota.getSeed(this._config, this._vaultConnector, controllerIdentity);
-		const keyPair = Iota.getKeyPair(
-			seed,
-			this._config.coinType ?? Iota.DEFAULT_COIN_TYPE,
-			0,
+		const keyPair = await Iota.getKeyPair(
+			this._vaultConnector,
+			this._config,
+			controllerIdentity,
+			this._config.accountAddressIndex ?? 0,
 			this._config.walletAddressIndex ?? 0
 		);
 		const signerKeyPair = new Ed25519Keypair({
@@ -920,7 +911,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 				(await signerKeyPair.signTransaction(txDataBcs)).signature,
 			publicKey: async () => signerKeyPair.getPublicKey(),
 			iotaPublicKeyBytes: async () => signerKeyPair.getPublicKey().toIotaBytes(),
-			keyId: () => address
+			keyId: () => Iota.publicKeyToAddress(keyPair.publicKey)
 		};
 
 		return new HierarchiesClient(readOnlyClient, signer);
@@ -936,23 +927,6 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 		return HierarchiesClientReadOnly.create(
 			iotaClient as unknown as Parameters<typeof HierarchiesClientReadOnly.create>[0]
 		);
-	}
-
-	/**
-	 * Get the address for the controller identity.
-	 * @param controllerIdentity The identity.
-	 * @returns The configured address.
-	 * @internal
-	 */
-	private async getControllerAddress(controllerIdentity: string): Promise<string> {
-		const addresses = await this._walletConnector.getAddresses(
-			controllerIdentity,
-			0,
-			this._config.walletAddressIndex ?? 0,
-			1
-		);
-
-		return addresses[0];
 	}
 
 	/**
@@ -1004,7 +978,14 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	): Promise<IIotaTransactionBlockResponse> {
 		const [txBytes] = await transactionBuilder.build(hierarchiesClient);
 		const transaction = IotaTransaction.from(txBytes);
-		const owner = await this.getControllerAddress(controllerIdentity);
+		const owner = await Iota.getAddress(
+			this._vaultConnector,
+			this._config,
+			controllerIdentity,
+			this._config.accountAddressIndex ?? 0,
+			this._config.walletAddressIndex ?? 0
+		);
+
 		const iotaClient = Iota.createClient(this._config);
 
 		const response = await Iota.prepareAndPostTransaction(
@@ -1354,62 +1335,55 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	 * @internal
 	 */
 	private handleAbortCode(response: IIotaTransactionBlockResponse): void {
-		if (
-			response.effects?.status?.status === "failure" &&
-			Is.stringValue(response.effects.status.error)
-		) {
-			const match = /abort code: (\d+)/.exec(response.effects.status.error);
-			if (match) {
-				const abortCode = match[1];
-
-				if (abortCode === "1") {
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "wrongFederation");
-				} else if (abortCode === "2") {
-					throw new GeneralError(
-						IotaHierarchiesConnector.CLASS_NAME,
-						"insufficientAccreditationToAccredit"
-					);
-				} else if (abortCode === "3") {
-					throw new GeneralError(
-						IotaHierarchiesConnector.CLASS_NAME,
-						"invalidPropertyValueCondition"
-					);
-				} else if (abortCode === "4") {
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "accreditationNotFound");
-				} else if (abortCode === "5") {
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "timestampMustBeInTheFuture");
-				} else if (abortCode === "6") {
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "propertyNotInFederation");
-				} else if (abortCode === "7") {
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "rootAuthorityNotFound");
-				} else if (abortCode === "8") {
-					throw new GeneralError(
-						IotaHierarchiesConnector.CLASS_NAME,
-						"cannotRevokeLastRootAuthority"
-					);
-				} else if (abortCode === "9") {
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "revokedRootAuthority");
-				} else if (abortCode === "10") {
-					throw new GeneralError(
-						IotaHierarchiesConnector.CLASS_NAME,
-						"emptyAllowedValuesWithoutAllowAny"
-					);
-				} else if (abortCode === "11") {
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "alreadyRootAuthority");
-				} else if (abortCode === "12") {
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "notRevokedRootAuthority");
-				} else if (abortCode === "13") {
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "propertyRevoked");
-				} else {
-					if (response.effects.status.error.includes("vec_map::insert")) {
-						throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "propertyAlreadyExists");
-					}
-
-					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "unknownAbortCode", {
-						abortCode,
-						detail: response.effects.status.error
-					});
+		const abortCode = Iota.extractAbortCode(response);
+		if (!Is.empty(abortCode)) {
+			if (abortCode === 1) {
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "wrongFederation");
+			} else if (abortCode === 2) {
+				throw new GeneralError(
+					IotaHierarchiesConnector.CLASS_NAME,
+					"insufficientAccreditationToAccredit"
+				);
+			} else if (abortCode === 3) {
+				throw new GeneralError(
+					IotaHierarchiesConnector.CLASS_NAME,
+					"invalidPropertyValueCondition"
+				);
+			} else if (abortCode === 4) {
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "accreditationNotFound");
+			} else if (abortCode === 5) {
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "timestampMustBeInTheFuture");
+			} else if (abortCode === 6) {
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "propertyNotInFederation");
+			} else if (abortCode === 7) {
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "rootAuthorityNotFound");
+			} else if (abortCode === 8) {
+				throw new GeneralError(
+					IotaHierarchiesConnector.CLASS_NAME,
+					"cannotRevokeLastRootAuthority"
+				);
+			} else if (abortCode === 9) {
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "revokedRootAuthority");
+			} else if (abortCode === 10) {
+				throw new GeneralError(
+					IotaHierarchiesConnector.CLASS_NAME,
+					"emptyAllowedValuesWithoutAllowAny"
+				);
+			} else if (abortCode === 11) {
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "alreadyRootAuthority");
+			} else if (abortCode === 12) {
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "notRevokedRootAuthority");
+			} else if (abortCode === 13) {
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "propertyRevoked");
+			} else {
+				if (response?.effects?.status?.error?.includes("vec_map::insert")) {
+					throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "propertyAlreadyExists");
 				}
+
+				throw new GeneralError(IotaHierarchiesConnector.CLASS_NAME, "unknownAbortCode", {
+					abortCode,
+					detail: response?.effects?.status?.error ?? ""
+				});
 			}
 		}
 	}

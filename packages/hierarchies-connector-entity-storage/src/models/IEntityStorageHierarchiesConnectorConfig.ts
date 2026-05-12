@@ -6,6 +6,12 @@
  */
 export interface IEntityStorageHierarchiesConnectorConfig {
 	/**
+	 * The account address index.
+	 * @default 0
+	 */
+	accountAddressIndex?: number;
+
+	/**
 	 * The wallet address index.
 	 * @default 0
 	 */

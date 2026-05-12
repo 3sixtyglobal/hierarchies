@@ -61,7 +61,14 @@ export class EntityStorageHierarchiesConnector implements IHierarchiesConnector 
 	 * The logging component.
 	 * @internal
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-private-class-members
 	private readonly _logging?: ILoggingComponent;
+
+	/**
+	 * The index of the account address in the secondary indexes of the entity storage.
+	 * @internal
+	 */
+	private readonly _accountAddressIndex: number;
 
 	/**
 	 * The index of the wallet address in the secondary indexes of the entity storage.
@@ -81,6 +88,7 @@ export class EntityStorageHierarchiesConnector implements IHierarchiesConnector 
 			options?.walletConnectorType ?? "wallet"
 		);
 		this._logging = ComponentFactory.getIfExists(options?.loggingComponentType ?? "logging");
+		this._accountAddressIndex = options?.config?.accountAddressIndex ?? 0;
 		this._walletAddressIndex = options?.config?.walletAddressIndex ?? 0;
 	}
 
@@ -110,7 +118,7 @@ export class EntityStorageHierarchiesConnector implements IHierarchiesConnector 
 		try {
 			const walletAddresses = await this._walletConnector.getAddresses(
 				controllerIdentity,
-				0,
+				this._accountAddressIndex,
 				this._walletAddressIndex,
 				1
 			);

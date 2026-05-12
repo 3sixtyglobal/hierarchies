@@ -7,6 +7,12 @@ import type { IIotaConfig } from "@twin.org/dlt-iota";
  */
 export interface IIotaHierarchiesConnectorConfig extends IIotaConfig {
 	/**
+	 * The wallet account index to use when performing hierarchies operations.
+	 * @default 0
+	 */
+	accountAddressIndex?: number;
+
+	/**
 	 * The wallet address index to use when performing hierarchies operations.
 	 * @default 0
 	 */

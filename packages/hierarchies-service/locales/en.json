@@ -1,5 +1,26 @@
 {
 	"error": {
-		"hierarchiesService": {}
+		"hierarchiesService": {
+			"noConnectors": "No connectors have been registered",
+			"federationCreateFailed": "Failed to create federation",
+			"federationGetFailed": "Failed to retrieve federation",
+			"authorityAddFailed": "Failed to add authority",
+			"authorityRemoveFailed": "Failed to remove authority",
+			"propertyAddFailed": "Failed to add property",
+			"propertyRemoveFailed": "Failed to remove property",
+			"propertyGetFailed": "Failed to retrieve property",
+			"propertiesGetFailed": "Failed to retrieve properties",
+			"propertyValidateFailed": "Failed to validate property",
+			"propertiesValidateFailed": "Failed to validate properties",
+			"accreditationToAttestAddFailed": "Failed to add accreditation to attest",
+			"accreditationToAttestRemoveFailed": "Failed to remove accreditation to attest",
+			"accreditationToAttestGetFailed": "Failed to retrieve accreditation to attest",
+			"accreditationsToAttestGetFailed": "Failed to retrieve accreditations to attest",
+			"accreditationToAccreditAddFailed": "Failed to add accreditation to accredit",
+			"accreditationToAccreditRemoveFailed": "Failed to remove accreditation to accredit",
+			"accreditationToAccreditGetFailed": "Failed to retrieve accreditation to accredit",
+			"accreditationsToAccreditGetFailed": "Failed to retrieve accreditations to accredit",
+			"namespaceMismatch": "URN namespace does not match expected namespace \"{namespace}\" for id \"{id}\""
+		}
 	}
 }
