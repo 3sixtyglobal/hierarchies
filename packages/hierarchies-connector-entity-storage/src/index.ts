@@ -3,4 +3,5 @@
 export * from "./entities/federation.js";
 export * from "./entityStorageHierarchiesConnector.js";
 export * from "./models/IEntityStorageHierarchiesConnectorConstructorOptions.js";
+export * from "./models/IEntityStorageHierarchiesConnectorConfig.js";
 export * from "./schema.js";
