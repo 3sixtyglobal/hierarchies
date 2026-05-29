@@ -4,7 +4,7 @@
 	"description": "Entity storage connector for local persistence and test-oriented workflows.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/iotaledger/hierarchies.git",
+		"url": "git+https://github.com/iotaledger/twin-hierarchies.git",
 		"directory": "packages/hierarchies-connector-entity-storage"
 	},
 	"author": "martyn.janes@iota.org",
@@ -86,7 +86,7 @@
 		"integration"
 	],
 	"bugs": {
-		"url": "git+https://github.com/iotaledger/hierarchies/issues"
+		"url": "git+https://github.com/iotaledger/twin-hierarchies/issues"
 	},
 	"homepage": "https://twindev.org"
 }

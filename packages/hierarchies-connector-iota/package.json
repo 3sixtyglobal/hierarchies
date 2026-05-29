@@ -4,7 +4,7 @@
 	"description": "IOTA-backed connector for network operations and on-ledger state.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/iotaledger/hierarchies.git",
+		"url": "git+https://github.com/iotaledger/twin-hierarchies.git",
 		"directory": "packages/hierarchies-connector-iota"
 	},
 	"author": "martyn.janes@iota.org",
@@ -87,7 +87,7 @@
 		"integration"
 	],
 	"bugs": {
-		"url": "git+https://github.com/iotaledger/hierarchies/issues"
+		"url": "git+https://github.com/iotaledger/twin-hierarchies/issues"
 	},
 	"homepage": "https://twindev.org"
 }
