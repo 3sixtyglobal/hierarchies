@@ -77,7 +77,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 		this._config = options.config;
 		Iota.populateConfig(this._config);
 		this._vaultConnector = VaultConnectorFactory.get(options.vaultConnectorType ?? "vault");
-		this._logging = ComponentFactory.getIfExists(options?.loggingComponentType ?? "logging");
+		this._logging = ComponentFactory.getIfExists(options?.loggingComponentType);
 	}
 
 	/**

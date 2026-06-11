@@ -20,7 +20,6 @@ export interface IEntityStorageHierarchiesConnectorConstructorOptions {
 
 	/**
 	 * The logging component type.
-	 * @default logging
 	 */
 	loggingComponentType?: string;
 

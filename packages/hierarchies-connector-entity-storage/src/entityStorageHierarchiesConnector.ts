@@ -87,7 +87,7 @@ export class EntityStorageHierarchiesConnector implements IHierarchiesConnector 
 		this._walletConnector = ComponentFactory.get<IWalletConnector>(
 			options?.walletConnectorType ?? "wallet"
 		);
-		this._logging = ComponentFactory.getIfExists(options?.loggingComponentType ?? "logging");
+		this._logging = ComponentFactory.getIfExists(options?.loggingComponentType);
 		this._accountAddressIndex = options?.config?.accountAddressIndex ?? 0;
 		this._walletAddressIndex = options?.config?.walletAddressIndex ?? 0;
 	}
