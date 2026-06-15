@@ -35,7 +35,8 @@ EntityStorageConnectorFactory.register(
 	"federation",
 	() =>
 		new MemoryEntityStorageConnector<Federation>({
-			entitySchema: nameof<Federation>()
+			entitySchema: nameof<Federation>(),
+			config: { storageKey: "federation-test-storage" }
 		})
 );
 
