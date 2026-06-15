@@ -13,7 +13,7 @@ import { nameof } from "@twin.org/nameof";
 import { HeaderTypes, HttpStatusCode } from "@twin.org/web";
 
 /**
- * The source for the routes.
+ * Source identifier used when constructing guard and error messages within routes.
  */
 export const ROUTES_SOURCE = "hierarchiesRoutes";
 

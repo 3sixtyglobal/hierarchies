@@ -19,12 +19,12 @@ export interface IFederation {
 	rootAuthorities: IRootAuthority[];
 
 	/**
-	 * The revoked root authorities in the federation. This is used to track which root authorities have been revoked and should no longer be trusted.
+	 * Account IDs of root authorities that have been revoked and are no longer trusted.
 	 */
 	revokedRootAuthorities: string[];
 
 	/**
-	 * The governance entity associated with this federation, if any. This is used to manage accreditations and attestations within the federation.
+	 * The governance entity that manages accreditations and attestations within the federation.
 	 */
 	governance: IGovernance;
 }

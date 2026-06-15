@@ -14,12 +14,12 @@ export interface IGovernance {
 	id: string;
 
 	/**
-	 * The accreditations to accredit mapping.
+	 * Map of accredited-by ID to the list of accreditations that grant the right to accredit others.
 	 */
 	accreditationsToAccredit: { [id: string]: IAccreditation[] };
 
 	/**
-	 * The accreditations to attest mapping.
+	 * Map of accredited-by ID to the list of accreditations that grant the right to attest properties.
 	 */
 	accreditationsToAttest: { [id: string]: IAccreditation[] };
 

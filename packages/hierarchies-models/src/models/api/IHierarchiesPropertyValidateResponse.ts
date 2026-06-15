@@ -9,6 +9,9 @@ export interface IHierarchiesPropertyValidateResponse {
 	 * The response body.
 	 */
 	body: {
+		/**
+		 * Whether the provided property is valid.
+		 */
 		valid: boolean;
 	};
 }

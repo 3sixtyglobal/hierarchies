@@ -130,6 +130,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 	 * Remove an authority from a federation.
 	 * @param federationId The ID of the federation.
 	 * @param accountId The account ID of the authority to remove.
+	 * @returns A promise that resolves when the authority has been removed.
 	 */
 	public async authorityRemove(federationId: string, accountId: string): Promise<void> {
 		Urn.guard(HierarchiesRestClient.CLASS_NAME, nameof(federationId), federationId);
@@ -147,6 +148,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 	 * Add a property to a federation.
 	 * @param federationId The ID of the federation.
 	 * @param property The property to add.
+	 * @returns A promise that resolves when the property has been added.
 	 */
 	public async propertyAdd(federationId: string, property: IProperty): Promise<void> {
 		Urn.guard(HierarchiesRestClient.CLASS_NAME, nameof(federationId), federationId);
@@ -166,6 +168,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 	 * Remove a property from a federation.
 	 * @param federationId The ID of the federation.
 	 * @param propertyName The name of the property to remove.
+	 * @returns A promise that resolves when the property has been removed.
 	 */
 	public async propertyRemove(federationId: string, propertyName: string): Promise<void> {
 		Urn.guard(HierarchiesRestClient.CLASS_NAME, nameof(federationId), federationId);
@@ -304,6 +307,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 	 * @param federationId The ID of the federation.
 	 * @param accreditedById The ID of the entity that granted the accreditation.
 	 * @param permissionId The ID of the accreditation to remove.
+	 * @returns A promise that resolves when the accreditation has been removed.
 	 */
 	public async accreditationToAttestRemove(
 		federationId: string,
@@ -395,6 +399,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 	 * @param federationId The ID of the federation.
 	 * @param accreditedById The ID of the entity that granted the accreditation.
 	 * @param permissionId The ID of the accreditation to remove.
+	 * @returns A promise that resolves when the accreditation has been removed.
 	 */
 	public async accreditationToAccreditRemove(
 		federationId: string,

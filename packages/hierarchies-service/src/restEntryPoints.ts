@@ -3,6 +3,9 @@
 import type { IRestRouteEntryPoint } from "@twin.org/api-models";
 import { generateRestRoutesHierarchies, tagsHierarchies } from "./hierarchiesRoutes.js";
 
+/**
+ * REST entry points for the hierarchies service.
+ */
 export const restEntryPoints: IRestRouteEntryPoint[] = [
 	{
 		name: "hierarchies",

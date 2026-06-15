@@ -886,9 +886,9 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Build a writable hierarchies client for an identity.
+	 * Builds a writable hierarchies client for the given controller identity.
 	 * @param controllerIdentity The controller identity.
-	 * @returns The hierarchies writable client.
+	 * @returns A promise that resolves with the writable client.
 	 * @internal
 	 */
 	private async buildWritableClient(controllerIdentity: string): Promise<HierarchiesClient> {
@@ -918,8 +918,8 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Build a read-only hierarchies client.
-	 * @returns The hierarchies read-only client.
+	 * Builds a read-only hierarchies client connected to the configured IOTA node.
+	 * @returns A promise that resolves with the read-only client.
 	 * @internal
 	 */
 	private async buildReadOnlyClient(): Promise<HierarchiesClientReadOnly> {
@@ -959,16 +959,12 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Post a hierarchies transaction using the shared IOTA transaction flow.
-	 *
-	 * This builds the hierarchies transaction, posts it via Iota.prepareAndPostTransaction
-	 * (which internally handles gas station mode when configured).
-	 *
+	 * Builds and posts a hierarchies transaction, handling gas station mode when configured.
 	 * @param controllerIdentity The identity performing the transaction.
 	 * @param transactionBuilder The transaction builder.
 	 * @param hierarchiesClient The hierarchies client.
-	 * @param dryRunLabel The label to use for dry run transaction (if cost logging is enabled).
-	 * @returns The execution result.
+	 * @param dryRunLabel The label to use for dry-run cost logging when cost logging is enabled.
+	 * @returns A promise that resolves with the transaction execution result.
 	 * @internal
 	 */
 	private async postTransaction(
@@ -1035,9 +1031,9 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps a Federation to an IFederation.
+	 * Maps a Federation to an IFederation model.
 	 * @param federation The Federation to map.
-	 * @param now The current timestamp for evaluating property conditions.
+	 * @param now The current timestamp in milliseconds; pass 0 to include revoked properties.
 	 * @returns The mapped IFederation.
 	 * @internal
 	 */
@@ -1067,10 +1063,10 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps a FederationProperties to an IFederationProperty array.
-	 * @param properties The FederationProperties to map.
-	 * @param now The current timestamp for evaluating property conditions.
-	 * @returns The mapped IFederationProperty array.
+	 * Maps an array of FederationProperty to an IProperty array, filtering revoked entries when now is positive.
+	 * @param properties The FederationProperty items to map.
+	 * @param now The current timestamp in milliseconds; pass 0 to include revoked properties.
+	 * @returns The mapped IProperty array.
 	 * @internal
 	 */
 	private mapFederatedPropertiesToModel(
@@ -1092,9 +1088,9 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps a FederationProperty to an IFederationProperty.
+	 * Maps a FederationProperty to an IProperty model.
 	 * @param property The FederationProperty to map.
-	 * @returns The mapped IFederationProperty.
+	 * @returns The mapped IProperty.
 	 * @internal
 	 */
 	private mapFederatedPropertyToModel(property: FederationProperty): IProperty {
@@ -1109,7 +1105,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps an IProperty to a FederationProperty.
+	 * Maps an IProperty model to a FederationProperty.
 	 * @param property The IProperty to map.
 	 * @returns The mapped FederationProperty.
 	 * @throws {GeneralError} If the allowed value type or property condition constraint is invalid.
@@ -1171,9 +1167,9 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps a PropertyValue to an IFederationPropertyValue.
+	 * Maps a PropertyValue to an IPropertyValue model.
 	 * @param propertyValue The PropertyValue to map.
-	 * @returns The mapped IFederationPropertyValue.
+	 * @returns The mapped IPropertyValue.
 	 * @internal
 	 */
 	private mapFederatedPropertyValueToModel(propertyValue: PropertyValue): IPropertyValue {
@@ -1190,9 +1186,9 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps a PropertyValue to an IFederationPropertyValue.
-	 * @param propertyShape The PropertyValue to map.
-	 * @returns The mapped IFederationPropertyValue.
+	 * Maps a PropertyShape to an IPropertyCondition model.
+	 * @param propertyShape The PropertyShape to map.
+	 * @returns The mapped condition, or undefined if no shape is provided.
 	 * @internal
 	 */
 	private mapFederatedPropertyConditionToModel(
@@ -1240,9 +1236,9 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps a Timespan to an ITimespan.
+	 * Maps a Timespan to an ITimespan model.
 	 * @param timespan The Timespan to map.
-	 * @returns The mapped ITimespan.
+	 * @returns The mapped ITimespan, or undefined if the timespan is empty.
 	 * @internal
 	 */
 	private mapTimespanToModel(timespan: Timespan | undefined): ITimespan | undefined {
@@ -1257,10 +1253,10 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps the internal map to an IAccreditation map.
-	 * @param accreditationsToAccredit The map of accreditations to accredit.
-	 * @param now The current timestamp for evaluating accreditation validity.
-	 * @returns The mapped IAccreditation map.
+	 * Maps the accreditations-to-accredit map to a plain IAccreditation map.
+	 * @param accreditationsToAccredit The source map of accreditations to accredit.
+	 * @param now The current timestamp in milliseconds used to filter revoked entries.
+	 * @returns The mapped IAccreditation record.
 	 * @internal
 	 */
 	private mapAccreditationsToAccreditToModel(
@@ -1285,9 +1281,9 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps an Accreditation to an IAccreditation.
+	 * Maps an Accreditation to an IAccreditation model.
 	 * @param accreditation The Accreditation to map.
-	 * @param now The current timestamp for evaluating accreditation validity.
+	 * @param now The current timestamp in milliseconds used to filter revoked properties.
 	 * @returns The mapped IAccreditation.
 	 * @internal
 	 */
@@ -1300,10 +1296,10 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Maps the internal map to an IAccreditation map.
-	 * @param accreditationsToAttest The map of accreditations to attest.
-	 * @param now The current timestamp for evaluating accreditation validity.
-	 * @returns The mapped IAccreditation map.
+	 * Maps the accreditations-to-attest map to a plain IAccreditation map.
+	 * @param accreditationsToAttest The source map of accreditations to attest.
+	 * @param now The current timestamp in milliseconds used to filter revoked entries.
+	 * @returns The mapped IAccreditation record.
 	 * @internal
 	 */
 	private mapAccreditationsToAttestToModel(

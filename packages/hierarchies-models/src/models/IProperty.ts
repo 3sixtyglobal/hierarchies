@@ -5,9 +5,7 @@ import type { IPropertyCondition } from "./IPropertyCondition.js";
 import type { ITimespan } from "./ITimespan.js";
 
 /**
- * Represents a property that can be granted to an account. A property
- * consists of a set of properties that must be satisfied by the account
- * in order to be granted the property.
+ * Represents a named property with optional allowed values, a condition, and a validity timespan.
  */
 export interface IProperty {
 	/**

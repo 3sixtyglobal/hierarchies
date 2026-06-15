@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 /**
- * Type representing the possible property types.
+ * Defines the supported data types for property values.
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const PropertyType = {
