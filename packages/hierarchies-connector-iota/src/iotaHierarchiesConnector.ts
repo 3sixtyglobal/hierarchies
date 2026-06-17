@@ -14,8 +14,6 @@ import {
 	type Transaction,
 	type TransactionBuilder
 } from "@iota/hierarchies/node/index.js";
-import { Ed25519Keypair } from "@iota/iota-sdk/keypairs/ed25519";
-import { Transaction as IotaTransaction } from "@iota/iota-sdk/transactions";
 import { ComponentFactory, GeneralError, Guards, Is, NotFoundError, Urn } from "@twin.org/core";
 import { Iota, type IIotaTransactionBlockResponse } from "@twin.org/dlt-iota";
 import {
@@ -894,25 +892,13 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	private async buildWritableClient(controllerIdentity: string): Promise<HierarchiesClient> {
 		const readOnlyClient = await this.buildReadOnlyClient();
 
-		const keyPair = await Iota.getKeyPair(
+		const signer = await Iota.getTransactionSigner(
 			this._vaultConnector,
 			this._config,
 			controllerIdentity,
 			this._config.accountAddressIndex ?? 0,
 			this._config.walletAddressIndex ?? 0
 		);
-		const signerKeyPair = new Ed25519Keypair({
-			publicKey: keyPair.publicKey,
-			secretKey: keyPair.privateKey
-		});
-
-		const signer = {
-			sign: async (txDataBcs: Uint8Array): Promise<string> =>
-				(await signerKeyPair.signTransaction(txDataBcs)).signature,
-			publicKey: async () => signerKeyPair.getPublicKey(),
-			iotaPublicKeyBytes: async () => signerKeyPair.getPublicKey().toIotaBytes(),
-			keyId: () => Iota.publicKeyToAddress(keyPair.publicKey)
-		};
 
 		return new HierarchiesClient(readOnlyClient, signer);
 	}
@@ -974,7 +960,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 		dryRunLabel: string
 	): Promise<IIotaTransactionBlockResponse> {
 		const [txBytes] = await transactionBuilder.build(hierarchiesClient);
-		const transaction = IotaTransaction.from(txBytes);
+		const transaction = Iota.transactionFromBytes(txBytes);
 		const owner = await Iota.getAddress(
 			this._vaultConnector,
 			this._config,
