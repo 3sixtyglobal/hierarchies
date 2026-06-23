@@ -37,6 +37,7 @@ export class HierarchiesService implements IHierarchiesComponent {
 	/**
 	 * Create a new instance of HierarchiesService.
 	 * @param options The constructor options.
+	 * @throws {GeneralError} If no connectors are registered.
 	 */
 	constructor(options?: IHierarchiesServiceConstructorOptions) {
 		const names = HierarchiesConnectorFactory.names();
