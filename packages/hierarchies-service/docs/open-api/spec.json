@@ -17,9 +17,540 @@
 	"tags": [
 		{
 			"name": "Hierarchies",
-			"description": "Endpoints which are modelled to access an Hierarchies contract."
+			"description": "Endpoints which are modelled to access a hierarchies service."
 		}
 	],
 	"paths": {
+		"/hierarchies": {
+			"post": {
+				"operationId": "hierarchiesFederationCreate",
+				"summary": "Create a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"requestBody": {
+					"description": "Request to create a federation.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/HierarchiesFederationCreateRequest"
+							},
+							"examples": {
+								"hierarchiesFederationCreateRequestExample": {
+									"value": {
+										"rootAuthorities": [
+											"acc-1",
+											"acc-2"
+										]
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "The rest request ended in created response.",
+						"headers": {
+							"location": {
+								"schema": {
+									"type": "string"
+								},
+								"description": "e.g. hierarchies:iota:123"
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}": {
+			"get": {
+				"operationId": "hierarchiesFederationGet",
+				"summary": "Get a federation by its ID",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation to get.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "includeRevokedProperties",
+						"description": "Whether to include revoked properties in the retrieved federation, defaults to false.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for getting a federation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Federation"
+								},
+								"examples": {
+									"hierarchiesFederationGetResponseExample": {
+										"value": {
+											"id": "hierarchies:iota:123",
+											"rootAuthorities": [
+												{
+													"id": "11111",
+													"accountId": "acc-1"
+												},
+												{
+													"id": "22222",
+													"accountId": "acc-2"
+												}
+											],
+											"revokedRootAuthorities": [],
+											"governance": {
+												"id": "gov-1",
+												"accreditationsToAccredit": {},
+												"accreditationsToAttest": {},
+												"properties": []
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"Accreditation": {
+				"description": "Represents an accreditation, which is a collection of properties granted by an accreditor.",
+				"type": "object",
+				"properties": {
+					"permissionId": {
+						"type": "string",
+						"description": "Unique identifier for the accreditation."
+					},
+					"accreditedBy": {
+						"type": "string",
+						"description": "The identifier of the entity that granted the accreditation."
+					},
+					"properties": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Property"
+						},
+						"description": "Properties associated with this accreditation."
+					}
+				},
+				"required": [
+					"permissionId",
+					"accreditedBy",
+					"properties"
+				]
+			},
+			"Error": {
+				"description": "Model to describe serialized error.",
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "The name for the error."
+					},
+					"message": {
+						"type": "string",
+						"description": "The message for the error as an i18n key."
+					},
+					"source": {
+						"type": "string",
+						"description": "The source of the error."
+					},
+					"properties": {
+						"type": "object",
+						"additionalProperties": {},
+						"description": "Any additional information for the error."
+					},
+					"stack": {
+						"type": "string",
+						"description": "The stack trace for the error."
+					},
+					"cause": {
+						"$ref": "#/components/schemas/Error"
+					}
+				},
+				"required": [
+					"name",
+					"message"
+				]
+			},
+			"Federation": {
+				"description": "Represents a federation, which is a group of entities forming a trust hierarchy.\nFederations define the root authorities and the schema for properties they manage.",
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "Unique identifier for the federation."
+					},
+					"rootAuthorities": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/RootAuthority"
+						},
+						"description": "List of root authority IDs associated with this federation."
+					},
+					"revokedRootAuthorities": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "Account IDs of root authorities that have been revoked and are no longer trusted."
+					},
+					"governance": {
+						"$ref": "#/components/schemas/Governance"
+					}
+				},
+				"required": [
+					"id",
+					"rootAuthorities",
+					"revokedRootAuthorities",
+					"governance"
+				]
+			},
+			"Governance": {
+				"description": "Represents a governance entity in a federation hierarchy.\nGovernance entities are trusted entities that can accredit or revoke delegations.",
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "Unique identifier for the governance entity."
+					},
+					"accreditationsToAccredit": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "array",
+							"items": {
+								"$ref": "#/components/schemas/Accreditation"
+							}
+						},
+						"description": "Map of accredited-by ID to the list of accreditations that grant the right to accredit others."
+					},
+					"accreditationsToAttest": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "array",
+							"items": {
+								"$ref": "#/components/schemas/Accreditation"
+							}
+						},
+						"description": "Map of accredited-by ID to the list of accreditations that grant the right to attest properties."
+					},
+					"properties": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Property"
+						},
+						"description": "The set of properties this governance entity covers."
+					}
+				},
+				"required": [
+					"id",
+					"accreditationsToAccredit",
+					"accreditationsToAttest",
+					"properties"
+				]
+			},
+			"HierarchiesFederationCreateRequest": {
+				"type": "object",
+				"properties": {
+					"rootAuthorities": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "The root authorities to be included in the federation."
+					},
+					"namespace": {
+						"type": "string",
+						"description": "The namespace of the connector to use for the federation, defaults to component configured namespace."
+					}
+				},
+				"description": "The request data."
+			},
+			"Property": {
+				"description": "Represents a named property with optional allowed values, a condition, and a validity timespan.",
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "The property name, can be dotted form."
+					},
+					"allowedValues": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/PropertyValue"
+						},
+						"description": "The allowed values for this property, if empty, any value is allowed."
+					},
+					"condition": {
+						"$ref": "#/components/schemas/PropertyCondition"
+					},
+					"timespan": {
+						"$ref": "#/components/schemas/Timespan"
+					}
+				},
+				"required": [
+					"name"
+				]
+			},
+			"PropertyCondition": {
+				"description": "Describes the condition and constraints of a property within a hierarchy.",
+				"type": "object",
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/PropertyType"
+					},
+					"value": {
+						"type": "string",
+						"description": "The property value."
+					},
+					"constraint": {
+						"$ref": "#/components/schemas/PropertyConstraintType"
+					}
+				},
+				"required": [
+					"type",
+					"value"
+				]
+			},
+			"PropertyConstraintType": {
+				"description": "Type representing the possible condition types.",
+				"anyOf": [
+					{
+						"const": "Contains",
+						"description": "Value must contain a specific substring."
+					},
+					{
+						"const": "StartsWith",
+						"description": "Value must start with a specific substring."
+					},
+					{
+						"const": "EndsWith",
+						"description": "Value must end with a specific substring."
+					},
+					{
+						"const": "GreaterThan",
+						"description": "Value must be greater than a specific value."
+					},
+					{
+						"const": "LessThan",
+						"description": "Value must be less than a specific value."
+					}
+				]
+			},
+			"PropertyType": {
+				"description": "Type representing the possible property types.",
+				"anyOf": [
+					{
+						"const": "String",
+						"description": "Value is a string."
+					},
+					{
+						"const": "BigInt",
+						"description": "Value is a bigint."
+					}
+				]
+			},
+			"PropertyValue": {
+				"description": "Describes the value of a property.",
+				"type": "object",
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/PropertyType"
+					},
+					"value": {
+						"type": "string",
+						"description": "The property value."
+					}
+				},
+				"required": [
+					"type",
+					"value"
+				]
+			},
+			"RootAuthority": {
+				"description": "Represents a root authority in a federation hierarchy.",
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "The ID of the root authority."
+					},
+					"accountId": {
+						"type": "string",
+						"description": "The account ID of the root authority."
+					}
+				},
+				"required": [
+					"id",
+					"accountId"
+				]
+			},
+			"Timespan": {
+				"description": "Represents a timespan in a federation hierarchy.",
+				"type": "object",
+				"properties": {
+					"validFrom": {
+						"type": "string",
+						"description": "Valid from as bigint string so it can be serialized accurately."
+					},
+					"validTo": {
+						"type": "string",
+						"description": "Valid to as bigint string so it can be serialized accurately."
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"jwtBearerAuthScheme": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
 	}
 }
