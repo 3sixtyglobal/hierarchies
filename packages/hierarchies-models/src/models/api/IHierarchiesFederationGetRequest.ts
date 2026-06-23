@@ -18,7 +18,7 @@ export interface IHierarchiesFederationGetRequest {
 	/**
 	 * The request query parameters.
 	 */
-	queryParams?: {
+	query?: {
 		/**
 		 * Whether to include revoked properties in the retrieved federation, defaults to false.
 		 */

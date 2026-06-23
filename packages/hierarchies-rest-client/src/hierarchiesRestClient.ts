@@ -101,7 +101,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 			IHierarchiesFederationGetResponse
 		>("/:federationId", "GET", {
 			pathParams: { federationId },
-			queryParams: { includeRevokedProperties: Coerce.string(options?.includeRevokedProperties) }
+			query: { includeRevokedProperties: Coerce.string(options?.includeRevokedProperties) }
 		});
 		return response.body;
 	}
@@ -217,7 +217,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 			IHierarchiesPropertiesGetResponse
 		>("/:federationId/properties", "GET", {
 			pathParams: { federationId },
-			queryParams: { includeRevokedProperties: Coerce.string(options?.includeRevokedProperties) }
+			query: { includeRevokedProperties: Coerce.string(options?.includeRevokedProperties) }
 		});
 		return response.body;
 	}

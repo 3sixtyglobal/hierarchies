@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import type { ICreatedResponse, IHttpRequestContext, IRestRoute, ITag } from "@twin.org/api-models";
 import { ContextIdHelper, ContextIdKeys, ContextIdStore } from "@twin.org/context";
-import { ComponentFactory, Guards } from "@twin.org/core";
+import { Coerce, ComponentFactory, Guards } from "@twin.org/core";
 import type {
 	IHierarchiesComponent,
 	IHierarchiesFederationCreateRequest,
@@ -179,6 +179,8 @@ export async function hierarchiesFederationGet(
 ): Promise<IHierarchiesFederationGetResponse> {
 	Guards.object(ROUTES_SOURCE, nameof(request.pathParams), request.pathParams);
 	const component = ComponentFactory.get<IHierarchiesComponent>(componentName);
-	const federation = await component.federationGet(request.pathParams.federationId);
+	const federation = await component.federationGet(request.pathParams.federationId, {
+		includeRevokedProperties: Coerce.boolean(request.query?.includeRevokedProperties)
+	});
 	return { body: federation };
 }
