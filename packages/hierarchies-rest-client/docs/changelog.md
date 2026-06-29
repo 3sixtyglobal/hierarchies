@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.9.1-next.2](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-rest-client-v0.9.1-next.1...hierarchies-rest-client-v0.9.1-next.2) (2026-06-29)
+
+
+### Features
+
+* enhanced rest testing ([248775d](https://github.com/iotaledger/twin-hierarchies/commit/248775d8c769fabd6ccf91540c312178dc5a62ac))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/hierarchies-models bumped from 0.9.1-next.1 to 0.9.1-next.2
+
 ## [0.9.1-next.1](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-rest-client-v0.9.1-next.0...hierarchies-rest-client-v0.9.1-next.1) (2026-06-26)
 
 
