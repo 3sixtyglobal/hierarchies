@@ -1,6 +1,6 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { ICreatedResponse, IHttpRequestContext, IRestRoute, ITag } from "@twin.org/api-models";
+import { HttpHeaderHelper, type ICreatedResponse, type IHttpRequestContext, type IRestRoute, type ITag } from "@twin.org/api-models";
 import { ContextIdHelper, ContextIdKeys, ContextIdStore } from "@twin.org/context";
 import { Coerce, ComponentFactory, Guards } from "@twin.org/core";
 import type {
@@ -10,7 +10,7 @@ import type {
 	IHierarchiesFederationGetResponse
 } from "@twin.org/hierarchies-models";
 import { nameof } from "@twin.org/nameof";
-import { HeaderTypes, HttpStatusCode } from "@twin.org/web";
+import { HttpStatusCode, type IHttpHeaders } from "@twin.org/web";
 
 /**
  * Source identifier used when constructing guard and error messages within routes.
@@ -157,10 +157,13 @@ export async function hierarchiesFederationCreate(
 		contextIds[ContextIdKeys.Organization]
 	);
 
+		const headers: IHttpHeaders = {};
+	HttpHeaderHelper.buildId(headers, result);
+
+
 	return {
 		statusCode: HttpStatusCode.created,
-		headers: {
-			[HeaderTypes.Location]: result
+		headers
 		}
 	};
 }
