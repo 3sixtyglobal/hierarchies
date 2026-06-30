@@ -1,6 +1,6 @@
 # Function: hierarchiesFederationCreate()
 
-> **hierarchiesFederationCreate**(`httpRequestContext`, `componentName`, `request`): `Promise`\<`ICreatedResponse`\>
+> **hierarchiesFederationCreate**(`httpRequestContext`, `componentName`, `request`, `baseRouteName`): `Promise`\<`ICreatedResponse`\>
 
 Handles a request to create a federation.
 
@@ -23,6 +23,12 @@ The name of the component to use in the routes.
 `IHierarchiesFederationCreateRequest`
 
 The request to create a federation, containing the body with root authorities and optional namespace.
+
+### baseRouteName
+
+`string`
+
+The base route name for constructing URLs.
 
 ## Returns
 
