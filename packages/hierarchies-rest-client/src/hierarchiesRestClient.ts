@@ -81,7 +81,8 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 				}
 			}
 		);
-		return HttpHeaderHelper.extractId(response.headers);
+
+		return HttpHeaderHelper.extractId(response.headers, `${this.getPathPrefix()}/:id`);
 	}
 
 	/**
@@ -123,7 +124,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 				body: { accountId }
 			}
 		);
-		return HttpHeaderHelper.extractId(response.headers);
+		return HttpHeaderHelper.extractId(response.headers, `${this.getPathPrefix()}/:id`);
 	}
 
 	/**
@@ -299,7 +300,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 				body: accreditation
 			}
 		);
-		return HttpHeaderHelper.extractId(response.headers);
+		return HttpHeaderHelper.extractId(response.headers, `${this.getPathPrefix()}/:id`);
 	}
 
 	/**
@@ -391,7 +392,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 				body: accreditation
 			}
 		);
-		return HttpHeaderHelper.extractId(response.headers);
+		return HttpHeaderHelper.extractId(response.headers, `${this.getPathPrefix()}/:id`);
 	}
 
 	/**

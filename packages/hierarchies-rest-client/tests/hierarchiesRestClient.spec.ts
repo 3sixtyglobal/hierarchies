@@ -29,8 +29,8 @@ const ACCOUNT_ID = "account001";
 const PROPERTY_NAME = "propertyA";
 
 const LOCATION_FEDERATION = `${ENDPOINT}/${PREFIX}/new-federation-id`;
-const LOCATION_AUTHORITY = `${ENDPOINT}/${PREFIX}/${FEDERATION_URN}/authorities/new-authority-id`;
-const LOCATION_ACCREDITATION = `${ENDPOINT}/${PREFIX}/${FEDERATION_URN}/accreditations/new-accreditation-id`;
+const LOCATION_AUTHORITY = `${ENDPOINT}/${PREFIX}/new-authority-id`;
+const LOCATION_ACCREDITATION = `${ENDPOINT}/${PREFIX}/new-accreditation-id`;
 
 const TEST_PROPERTY_VALUE: IPropertyValue = {
 	type: PropertyType.String,
@@ -106,7 +106,7 @@ describe("HierarchiesRestClient", () => {
 
 			const id = await client.federationCreate();
 
-			expect(id).toBe(LOCATION_FEDERATION);
+			expect(id).toBe("new-federation-id");
 		});
 	});
 
@@ -186,7 +186,7 @@ describe("HierarchiesRestClient", () => {
 
 			const id = await client.authorityAdd(FEDERATION_URN, ACCOUNT_ID);
 
-			expect(id).toBe(LOCATION_AUTHORITY);
+			expect(id).toBe("new-authority-id");
 		});
 	});
 
@@ -541,7 +541,7 @@ describe("HierarchiesRestClient", () => {
 
 			const id = await client.accreditationToAttestAdd(FEDERATION_URN, TEST_ACCREDITATION_CREATE);
 
-			expect(id).toBe(LOCATION_ACCREDITATION);
+			expect(id).toBe("new-accreditation-id");
 		});
 	});
 
@@ -721,7 +721,7 @@ describe("HierarchiesRestClient", () => {
 
 			const id = await client.accreditationToAccreditAdd(FEDERATION_URN, TEST_ACCREDITATION_CREATE);
 
-			expect(id).toBe(LOCATION_ACCREDITATION);
+			expect(id).toBe("new-accreditation-id");
 		});
 	});
 

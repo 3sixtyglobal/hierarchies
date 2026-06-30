@@ -1,7 +1,9 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import {
+	HttpContextIdKeys,
 	HttpHeaderHelper,
+	HttpUrlHelper,
 	type ICreatedResponse,
 	type IHttpRequestContext,
 	type IRestRoute,
@@ -50,7 +52,7 @@ export function generateRestRoutesHierarchies(
 		method: "POST",
 		path: `${baseRouteName}/`,
 		handler: async (httpRequestContext, request) =>
-			hierarchiesFederationCreate(httpRequestContext, componentName, request),
+			hierarchiesFederationCreate(httpRequestContext, componentName, request, baseRouteName),
 		requestType: {
 			type: nameof<IHierarchiesFederationCreateRequest>(),
 			examples: [
@@ -140,12 +142,14 @@ export function generateRestRoutesHierarchies(
  * @param httpRequestContext The request context for the API.
  * @param componentName The name of the component to use in the routes.
  * @param request The request to create a federation, containing the body with root authorities and optional namespace.
+ * @param baseRouteName The base route name for constructing URLs.
  * @returns The response object with HTTP status and Location header for the created federation.
  */
 export async function hierarchiesFederationCreate(
 	httpRequestContext: IHttpRequestContext,
 	componentName: string,
-	request: IHierarchiesFederationCreateRequest
+	request: IHierarchiesFederationCreateRequest,
+	baseRouteName: string
 ): Promise<ICreatedResponse> {
 	Guards.object<IHierarchiesFederationCreateRequest["body"]>(
 		ROUTES_SOURCE,
@@ -163,8 +167,14 @@ export async function hierarchiesFederationCreate(
 		contextIds[ContextIdKeys.Organization]
 	);
 
+	const publicOrigin = contextIds?.[HttpContextIdKeys.PublicOrigin];
+
 	const headers: IHttpHeaders = {};
-	HttpHeaderHelper.buildId(headers, result);
+	HttpHeaderHelper.buildId(
+		headers,
+		result,
+		HttpUrlHelper.combineOriginPath(publicOrigin, `${baseRouteName}/:id`)
+	);
 
 	return {
 		statusCode: HttpStatusCode.created,
