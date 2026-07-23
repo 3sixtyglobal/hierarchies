@@ -1290,8 +1290,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	 */
 	private mapAccreditationsToAttestToModel(
 		accreditationsToAttest:
-			| Map<string, { accreditations: { [id: string]: Accreditation } }>
-			| undefined,
+			Map<string, { accreditations: { [id: string]: Accreditation } }> | undefined,
 		now: number
 	): {
 		[id: string]: IAccreditation[];
