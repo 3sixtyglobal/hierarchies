@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/hierarchies-models",
-	"version": "0.9.1-next.3",
+	"version": "0.9.2-next.0",
 	"description": "Shared interfaces, request and response models, and connector contracts.",
 	"repository": {
 		"type": "git",
