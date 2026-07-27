@@ -1,6 +1,6 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { IGovernance } from "../index.js";
+import type { IGovernance } from "./IGovernance.js";
 import type { IRootAuthority } from "./IRootAuthority.js";
 
 /**

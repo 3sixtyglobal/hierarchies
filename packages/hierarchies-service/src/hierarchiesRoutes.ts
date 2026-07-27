@@ -1,6 +1,14 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { ICreatedResponse, IHttpRequestContext, IRestRoute, ITag } from "@twin.org/api-models";
+import {
+	HttpContextIdKeys,
+	HttpHeaderHelper,
+	HttpUrlHelper,
+	type ICreatedResponse,
+	type IHttpRequestContext,
+	type IRestRoute,
+	type ITag
+} from "@twin.org/api-models";
 import { ContextIdHelper, ContextIdKeys, ContextIdStore } from "@twin.org/context";
 import { Coerce, ComponentFactory, Guards } from "@twin.org/core";
 import type {
@@ -10,7 +18,7 @@ import type {
 	IHierarchiesFederationGetResponse
 } from "@twin.org/hierarchies-models";
 import { nameof } from "@twin.org/nameof";
-import { HeaderTypes, HttpStatusCode } from "@twin.org/web";
+import { HttpStatusCode, type IHttpHeaders } from "@twin.org/web";
 
 /**
  * Source identifier used when constructing guard and error messages within routes.
@@ -44,7 +52,7 @@ export function generateRestRoutesHierarchies(
 		method: "POST",
 		path: `${baseRouteName}/`,
 		handler: async (httpRequestContext, request) =>
-			hierarchiesFederationCreate(httpRequestContext, componentName, request),
+			hierarchiesFederationCreate(httpRequestContext, componentName, request, baseRouteName),
 		requestType: {
 			type: nameof<IHierarchiesFederationCreateRequest>(),
 			examples: [
@@ -134,12 +142,14 @@ export function generateRestRoutesHierarchies(
  * @param httpRequestContext The request context for the API.
  * @param componentName The name of the component to use in the routes.
  * @param request The request to create a federation, containing the body with root authorities and optional namespace.
+ * @param baseRouteName The base route name for constructing URLs.
  * @returns The response object with HTTP status and Location header for the created federation.
  */
 export async function hierarchiesFederationCreate(
 	httpRequestContext: IHttpRequestContext,
 	componentName: string,
-	request: IHierarchiesFederationCreateRequest
+	request: IHierarchiesFederationCreateRequest,
+	baseRouteName: string
 ): Promise<ICreatedResponse> {
 	Guards.object<IHierarchiesFederationCreateRequest["body"]>(
 		ROUTES_SOURCE,
@@ -157,11 +167,18 @@ export async function hierarchiesFederationCreate(
 		contextIds[ContextIdKeys.Organization]
 	);
 
+	const publicOrigin = contextIds?.[HttpContextIdKeys.PublicOrigin];
+
+	const headers: IHttpHeaders = {};
+	HttpHeaderHelper.buildId(
+		headers,
+		result,
+		HttpUrlHelper.combineOriginPath(publicOrigin, `${baseRouteName}/:id`)
+	);
+
 	return {
 		statusCode: HttpStatusCode.created,
-		headers: {
-			[HeaderTypes.Location]: result
-		}
+		headers
 	};
 }
 

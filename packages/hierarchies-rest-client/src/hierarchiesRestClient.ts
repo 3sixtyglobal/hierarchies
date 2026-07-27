@@ -1,10 +1,11 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { BaseRestClient } from "@twin.org/api-core";
-import type {
-	IBaseRestClientConfig,
-	ICreatedResponse,
-	INoContentResponse
+import {
+	HttpHeaderHelper,
+	type IBaseRestClientConfig,
+	type ICreatedResponse,
+	type INoContentResponse
 } from "@twin.org/api-models";
 import { Coerce, Guards, Urn } from "@twin.org/core";
 import type {
@@ -36,7 +37,7 @@ import type {
 	IPropertyValue
 } from "@twin.org/hierarchies-models";
 import { nameof } from "@twin.org/nameof";
-import { HeaderTypes } from "@twin.org/web";
+import { HttpMethod } from "@twin.org/web";
 
 /**
  * Client for performing hierarchies operations through to REST endpoints.
@@ -72,7 +73,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 	public async federationCreate(rootAuthorities?: string[], namespace?: string): Promise<string> {
 		const response = await this.fetch<IHierarchiesFederationCreateRequest, ICreatedResponse>(
 			"/",
-			"POST",
+			HttpMethod.POST,
 			{
 				body: {
 					rootAuthorities,
@@ -80,8 +81,8 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 				}
 			}
 		);
-		const federationId = response.headers[HeaderTypes.Location];
-		return federationId;
+
+		return HttpHeaderHelper.extractId(response.headers, `${this.getPathPrefix()}/:id`);
 	}
 
 	/**
@@ -99,7 +100,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		const response = await this.fetch<
 			IHierarchiesFederationGetRequest,
 			IHierarchiesFederationGetResponse
-		>("/:federationId", "GET", {
+		>("/:federationId", HttpMethod.GET, {
 			pathParams: { federationId },
 			query: { includeRevokedProperties: Coerce.string(options?.includeRevokedProperties) }
 		});
@@ -117,13 +118,13 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		Guards.stringValue(HierarchiesRestClient.CLASS_NAME, nameof(accountId), accountId);
 		const response = await this.fetch<IHierarchiesAuthorityAddRequest, ICreatedResponse>(
 			"/:federationId/authorities",
-			"POST",
+			HttpMethod.POST,
 			{
 				pathParams: { federationId },
 				body: { accountId }
 			}
 		);
-		return response.headers[HeaderTypes.Location];
+		return HttpHeaderHelper.extractId(response.headers, `${this.getPathPrefix()}/:id`);
 	}
 
 	/**
@@ -137,7 +138,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		Guards.stringValue(HierarchiesRestClient.CLASS_NAME, nameof(accountId), accountId);
 		await this.fetch<IHierarchiesAuthorityRemoveRequest, INoContentResponse>(
 			"/:federationId/authorities/:accountId",
-			"DELETE",
+			HttpMethod.DELETE,
 			{
 				pathParams: { federationId, accountId }
 			}
@@ -156,7 +157,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 
 		await this.fetch<IHierarchiesPropertyAddRequest, INoContentResponse>(
 			"/:federationId/properties",
-			"POST",
+			HttpMethod.POST,
 			{
 				pathParams: { federationId },
 				body: property
@@ -175,7 +176,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		Guards.stringValue(HierarchiesRestClient.CLASS_NAME, nameof(propertyName), propertyName);
 		await this.fetch<IHierarchiesPropertyRemoveRequest, INoContentResponse>(
 			"/:federationId/properties/:propertyName",
-			"DELETE",
+			HttpMethod.DELETE,
 			{
 				pathParams: { federationId, propertyName }
 			}
@@ -194,7 +195,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		const response = await this.fetch<
 			IHierarchiesPropertyGetRequest,
 			IHierarchiesPropertyGetResponse
-		>("/:federationId/properties/:propertyName", "GET", {
+		>("/:federationId/properties/:propertyName", HttpMethod.GET, {
 			pathParams: { federationId, propertyName }
 		});
 		return response.body;
@@ -215,7 +216,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		const response = await this.fetch<
 			IHierarchiesPropertiesGetRequest,
 			IHierarchiesPropertiesGetResponse
-		>("/:federationId/properties", "GET", {
+		>("/:federationId/properties", HttpMethod.GET, {
 			pathParams: { federationId },
 			query: { includeRevokedProperties: Coerce.string(options?.includeRevokedProperties) }
 		});
@@ -243,7 +244,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		const response = await this.fetch<
 			IHierarchiesPropertyValidateRequest,
 			IHierarchiesPropertyValidateResponse
-		>("/:federationId/properties/validate", "POST", {
+		>("/:federationId/properties/validate", HttpMethod.POST, {
 			pathParams: { federationId },
 			body: { accreditedById, propertyName, propertyValue }
 		});
@@ -272,7 +273,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		const response = await this.fetch<
 			IHierarchiesPropertiesValidateRequest,
 			IHierarchiesPropertiesValidateResponse
-		>("/:federationId/properties/validate/batch", "POST", {
+		>("/:federationId/properties/validate/batch", HttpMethod.POST, {
 			pathParams: { federationId },
 			body: { accreditedById, propertiesToValidate }
 		});
@@ -293,13 +294,13 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		Guards.object(HierarchiesRestClient.CLASS_NAME, nameof(accreditation), accreditation);
 		const response = await this.fetch<IHierarchiesAccreditationAddRequest, ICreatedResponse>(
 			"/:federationId/accreditations/attest",
-			"POST",
+			HttpMethod.POST,
 			{
 				pathParams: { federationId },
 				body: accreditation
 			}
 		);
-		return response.headers[HeaderTypes.Location];
+		return HttpHeaderHelper.extractId(response.headers, `${this.getPathPrefix()}/:id`);
 	}
 
 	/**
@@ -319,7 +320,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		Guards.stringValue(HierarchiesRestClient.CLASS_NAME, nameof(permissionId), permissionId);
 		await this.fetch<IHierarchiesAccreditationRemoveRequest, INoContentResponse>(
 			"/:federationId/accreditations/attest/:accreditedById/:permissionId",
-			"DELETE",
+			HttpMethod.DELETE,
 			{
 				pathParams: { federationId, accreditedById, permissionId }
 			}
@@ -344,7 +345,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		const response = await this.fetch<
 			IHierarchiesAccreditationGetRequest,
 			IHierarchiesAccreditationGetResponse
-		>("/:federationId/accreditations/attest/:accreditedById/:permissionId", "GET", {
+		>("/:federationId/accreditations/attest/:accreditedById/:permissionId", HttpMethod.GET, {
 			pathParams: { federationId, accreditedById, permissionId }
 		});
 		return response.body;
@@ -365,7 +366,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		const response = await this.fetch<
 			IHierarchiesAccreditationsGetRequest,
 			IHierarchiesAccreditationsGetResponse
-		>("/:federationId/accreditations/attest/:accreditedById", "GET", {
+		>("/:federationId/accreditations/attest/:accreditedById", HttpMethod.GET, {
 			pathParams: { federationId, accreditedById }
 		});
 		return response.body;
@@ -385,13 +386,13 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		Guards.object(HierarchiesRestClient.CLASS_NAME, "accreditation", accreditation);
 		const response = await this.fetch<IHierarchiesAccreditationAddRequest, ICreatedResponse>(
 			"/:federationId/accreditations/accredit",
-			"POST",
+			HttpMethod.POST,
 			{
 				pathParams: { federationId },
 				body: accreditation
 			}
 		);
-		return response.headers[HeaderTypes.Location];
+		return HttpHeaderHelper.extractId(response.headers, `${this.getPathPrefix()}/:id`);
 	}
 
 	/**
@@ -411,7 +412,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		Guards.stringValue(HierarchiesRestClient.CLASS_NAME, "permissionId", permissionId);
 		await this.fetch<IHierarchiesAccreditationRemoveRequest, INoContentResponse>(
 			"/:federationId/accreditations/accredit/:accreditedById/:permissionId",
-			"DELETE",
+			HttpMethod.DELETE,
 			{
 				pathParams: { federationId, accreditedById, permissionId }
 			}
@@ -436,7 +437,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		const response = await this.fetch<
 			IHierarchiesAccreditationGetRequest,
 			IHierarchiesAccreditationGetResponse
-		>("/:federationId/accreditations/accredit/:accreditedById/:permissionId", "GET", {
+		>("/:federationId/accreditations/accredit/:accreditedById/:permissionId", HttpMethod.GET, {
 			pathParams: { federationId, accreditedById, permissionId }
 		});
 		return response.body;
@@ -457,7 +458,7 @@ export class HierarchiesRestClient extends BaseRestClient implements IHierarchie
 		const response = await this.fetch<
 			IHierarchiesAccreditationsGetRequest,
 			IHierarchiesAccreditationsGetResponse
-		>("/:federationId/accreditations/accredit/:accreditedById", "GET", {
+		>("/:federationId/accreditations/accredit/:accreditedById", HttpMethod.GET, {
 			pathParams: { federationId, accreditedById }
 		});
 		return response.body;

@@ -1,7 +1,7 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { IPropertyValue } from "../index.js";
 import type { IPropertyCondition } from "./IPropertyCondition.js";
+import type { IPropertyValue } from "./IPropertyValue.js";
 import type { ITimespan } from "./ITimespan.js";
 
 /**
