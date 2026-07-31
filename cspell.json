@@ -21,18 +21,19 @@
 		"changelog.md"
 	],
 	"words": [
-		"accreditor",
-		"accreditations",
 		"abbrev",
+		"accreditations",
+		"accreditor",
 		"autorelease",
 		"bech",
-		"Faucet",
-		"TWIN",
-		"nameof",
-		"Stiftung",
-		"utxo",
 		"devnet",
-		"Stdlib"
+		"Faucet",
+		"hotfixes",
+		"nameof",
+		"Stdlib",
+		"Stiftung",
+		"TWIN",
+		"utxo"
 	],
 	"ignoreRegExpList": [
 		"/from\\s+(['\"]).*\\1/",
