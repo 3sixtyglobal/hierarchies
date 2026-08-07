@@ -15,6 +15,7 @@ import {
 	type TransactionBuilder
 } from "@iota/hierarchies/node/index.js";
 import { ComponentFactory, GeneralError, Guards, Is, NotFoundError, Urn } from "@twin.org/core";
+import { AccountHelper } from "@twin.org/dlt-account";
 import { Iota, type IIotaTransactionBlockResponse } from "@twin.org/dlt-iota";
 import {
 	PropertyConstraintType,
@@ -961,9 +962,9 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	): Promise<IIotaTransactionBlockResponse> {
 		const [txBytes] = await transactionBuilder.build(hierarchiesClient);
 		const transaction = Iota.transactionFromBytes(txBytes);
-		const owner = await Iota.getAddress(
-			this._vaultConnector,
+		const owner = await AccountHelper.getAddress(
 			this._config,
+			this._vaultConnector,
 			controllerIdentity,
 			this._config.accountAddressIndex ?? 0,
 			this._config.walletAddressIndex ?? 0
