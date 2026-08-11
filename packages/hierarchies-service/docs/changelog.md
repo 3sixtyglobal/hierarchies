@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.2-next.2](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-service-v0.9.2-next.1...hierarchies-service-v0.9.2-next.2) (2026-08-11)
+
+
+### Features
+
+* complete implementation ([35ca46c](https://github.com/iotaledger/twin-hierarchies/commit/35ca46c8ebe9636fff9002fb6fb7ca19a582fbff))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/hierarchies-models bumped from 0.9.2-next.1 to 0.9.2-next.2
+  * devDependencies
+    * @twin.org/hierarchies-connector-entity-storage bumped from 0.9.2-next.1 to 0.9.2-next.2
+
 ## [0.9.2-next.1](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-service-v0.9.2-next.0...hierarchies-service-v0.9.2-next.1) (2026-08-07)
 
 

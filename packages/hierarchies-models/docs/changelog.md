@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.2-next.2](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-models-v0.9.2-next.1...hierarchies-models-v0.9.2-next.2) (2026-08-11)
+
+
+### Miscellaneous Chores
+
+* **hierarchies-models:** Synchronize repo versions
+
 ## [0.9.2-next.1](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-models-v0.9.2-next.0...hierarchies-models-v0.9.2-next.1) (2026-08-07)
 
 

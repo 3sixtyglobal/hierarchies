@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.9.2-next.2](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-rest-client-v0.9.2-next.1...hierarchies-rest-client-v0.9.2-next.2) (2026-08-11)
+
+
+### Miscellaneous Chores
+
+* **hierarchies-rest-client:** Synchronize repo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @twin.org/hierarchies-models bumped from 0.9.2-next.1 to 0.9.2-next.2
+
 ## [0.9.2-next.1](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-rest-client-v0.9.2-next.0...hierarchies-rest-client-v0.9.2-next.1) (2026-08-07)
 
 
