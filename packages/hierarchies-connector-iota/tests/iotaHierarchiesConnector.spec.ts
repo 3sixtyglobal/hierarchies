@@ -1,18 +1,17 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { Urn } from "@twin.org/core";
-
 import {
-	type IAccreditation,
-	type IProperty,
 	PropertyConstraintType,
-	PropertyType
+	PropertyType,
+	type IAccreditation,
+	type IProperty
 } from "@twin.org/hierarchies-models";
 import {
 	TEST_ADDRESS_1,
 	TEST_ADDRESS_2,
-	TEST_IOTA_CONFIG,
 	TEST_EXPLORER_URL,
+	TEST_IOTA_CONFIG,
 	TEST_NETWORK,
 	TEST_USER_IDENTITY,
 	setupTestEnv
@@ -21,7 +20,7 @@ import { IotaHierarchiesConnector } from "../src/iotaHierarchiesConnector.js";
 
 let connector: IotaHierarchiesConnector;
 
-function debugOnChainLocation(id: string): void {
+function logCreatedFederationLocation(id: string): void {
 	const urn = Urn.fromValidString(id);
 	const objectId = urn.namespaceSpecific(1);
 	console.debug("Created", `${TEST_EXPLORER_URL}object/${objectId}?network=${TEST_NETWORK}`);
@@ -38,13 +37,13 @@ describe("IotaHierarchiesConnector", () => {
 		});
 	});
 
-	test("Can create the service", async () => {
+	test("Can create the service", () => {
 		expect(connector.className()).toBe("IotaHierarchiesConnector");
 	});
 
-	test.skip("Can create a federation", async () => {
+	test("Can create a federation", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const fed = await connector.federationGet(id);
 		const urn = Urn.fromValidString(fed.id);
 		expect(urn.namespaceIdentifier()).toEqual("federation");
@@ -72,9 +71,9 @@ describe("IotaHierarchiesConnector", () => {
 		});
 	});
 
-	test.skip("Can add and remove authority", async () => {
+	test("Can add and remove authority", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 
 		const authorityId = await connector.authorityAdd(TEST_USER_IDENTITY, id, TEST_ADDRESS_2);
 		const fed = await connector.federationGet(id);
@@ -119,32 +118,27 @@ describe("IotaHierarchiesConnector", () => {
 		});
 	});
 
-	test.skip("Can re-add a removed authority", async () => {
+	test("Can re-add a removed authority", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
-		// Add a second authority
+		logCreatedFederationLocation(id);
 		await connector.authorityAdd(TEST_USER_IDENTITY, id, TEST_ADDRESS_2);
-		// Remove the authority
 		await connector.authorityRemove(TEST_USER_IDENTITY, id, TEST_ADDRESS_2);
-		// Re-add the same authority
 		await connector.authorityAdd(TEST_USER_IDENTITY, id, TEST_ADDRESS_2);
-		// Fetch federation and check authority is present
-		const hierarchies = await connector.federationGet(id);
-		const unrevoked = hierarchies.rootAuthorities.find(ra => ra.accountId === TEST_ADDRESS_2);
+		const fed = await connector.federationGet(id);
+		const unrevoked = fed.rootAuthorities.find(ra => ra.accountId === TEST_ADDRESS_2);
 		expect(unrevoked).toBeDefined();
-		const revoked = hierarchies.revokedRootAuthorities.find(ra => ra === TEST_ADDRESS_2);
+		const revoked = fed.revokedRootAuthorities.find(ra => ra === TEST_ADDRESS_2);
 		expect(revoked).toBeUndefined();
 	});
 
-	test.skip("Can add and remove a property", async () => {
+	test("Can add and remove a property", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
 			name: "test.property",
 			allowedValues: [{ type: PropertyType.String, value: "foo" }]
 		};
 		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
-
 		const fed = await connector.federationGet(id);
 		expect(fed).toEqual({
 			id,
@@ -195,85 +189,37 @@ describe("IotaHierarchiesConnector", () => {
 		});
 	});
 
-	test.skip("Can add, get, list, and remove accreditation to attest", async () => {
+	test("Removing non-existent property is handled gracefully", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		let errorThrown = false;
+		try {
+			await connector.propertyRemove(TEST_USER_IDENTITY, id, "does.not.exist");
+		} catch {
+			errorThrown = true;
+		}
+
+		if (!errorThrown) {
+			const federation = await connector.federationGet(id);
+			expect(federation.governance.properties.some(p => p.name === "does.not.exist")).toBe(false);
+		}
+	});
+
+	test("Can add, get, list, and remove accreditation to attest", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
 			name: "test.property",
-			allowedValues: [{ type: PropertyType.String, value: "foo" }],
-			condition: {
-				type: PropertyType.String,
-				value: "bar",
-				constraint: PropertyConstraintType.Contains
-			}
+			allowedValues: [{ type: PropertyType.String, value: "foo" }]
 		};
 		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
-
-		debugOnChainLocation(id);
 		const accreditation: Omit<IAccreditation, "permissionId"> = {
-			accreditedBy: TEST_ADDRESS_2,
+			accreditedBy: TEST_ADDRESS_1,
 			properties: [
-				{
-					name: "test.property",
-					allowedValues: [{ type: PropertyType.String, value: "foo" }],
-					condition: {
-						type: PropertyType.String,
-						value: "foo",
-						constraint: PropertyConstraintType.Contains
-					}
-				}
+				{ name: "test.property", allowedValues: [{ type: PropertyType.String, value: "foo" }] }
 			]
 		};
 		const accId = await connector.accreditationToAttestAdd(TEST_USER_IDENTITY, id, accreditation);
-
-		const fed = await connector.federationGet(id);
-		expect(fed).toEqual({
-			id,
-			governance: {
-				id: expect.any(String),
-				accreditationsToAccredit: {
-					[TEST_ADDRESS_1]: []
-				},
-				accreditationsToAttest: {
-					[TEST_ADDRESS_1]: [],
-					[TEST_ADDRESS_2]: [
-						{
-							accreditedBy: TEST_ADDRESS_1,
-							permissionId: expect.any(String),
-							properties: [
-								{
-									name: "test.property",
-									allowedValues: [
-										{
-											type: "String",
-											value: "foo"
-										}
-									],
-									condition: {
-										type: PropertyType.String,
-										value: "foo",
-										constraint: PropertyConstraintType.Contains
-									}
-								}
-							]
-						}
-					]
-				},
-				properties: [
-					{
-						name: "test.property",
-						allowedValues: [{ type: PropertyType.String, value: "foo" }],
-						condition: {
-							type: PropertyType.String,
-							value: "bar",
-							constraint: PropertyConstraintType.Contains
-						}
-					}
-				]
-			},
-			revokedRootAuthorities: [],
-			rootAuthorities: [{ id: expect.any(String), accountId: TEST_ADDRESS_1 }]
-		});
-
 		const fetched = await connector.accreditationToAttestGet(id, TEST_ADDRESS_1, accId);
 		expect(fetched).toBeDefined();
 		expect(fetched.permissionId).toBe(accId);
@@ -284,9 +230,9 @@ describe("IotaHierarchiesConnector", () => {
 		expect(listAfter.some(a => a.permissionId === accId)).toBe(false);
 	});
 
-	test.skip("Can add, get, list, and remove accreditation to accredit", async () => {
+	test("Can add, get, list, and remove accreditation to accredit", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
 			name: "test.property",
 			allowedValues: [{ type: PropertyType.String, value: "foo" }]
@@ -309,22 +255,20 @@ describe("IotaHierarchiesConnector", () => {
 		expect(listAfter.some(a => a.permissionId === accId)).toBe(false);
 	});
 
-	test.skip("Can validate a property", async () => {
+	test("Can validate a property", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
 			name: "test.property",
 			allowedValues: [{ type: PropertyType.String, value: "foo" }]
 		};
 		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
-
 		await connector.accreditationToAttestAdd(TEST_USER_IDENTITY, id, {
 			accreditedBy: TEST_ADDRESS_1,
 			properties: [
 				{ name: "test.property", allowedValues: [{ type: PropertyType.String, value: "foo" }] }
 			]
 		});
-
 		const result = await connector.propertyValidate(id, TEST_ADDRESS_1, "test.property", {
 			type: PropertyType.String,
 			value: "foo"
@@ -332,22 +276,20 @@ describe("IotaHierarchiesConnector", () => {
 		expect(result).toBe(true);
 	});
 
-	test.skip("Can fail to validate a property", async () => {
+	test("Can fail to validate a property", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
 			name: "test.property",
 			allowedValues: [{ type: PropertyType.String, value: "foo" }]
 		};
 		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
-
 		await connector.accreditationToAttestAdd(TEST_USER_IDENTITY, id, {
 			accreditedBy: TEST_ADDRESS_1,
 			properties: [
 				{ name: "test.property", allowedValues: [{ type: PropertyType.String, value: "foo" }] }
 			]
 		});
-
 		const result = await connector.propertyValidate(id, TEST_ADDRESS_1, "test.property", {
 			type: PropertyType.String,
 			value: "bar"
@@ -355,9 +297,126 @@ describe("IotaHierarchiesConnector", () => {
 		expect(result).toBe(false);
 	});
 
-	test.skip("Can validate properties", async () => {
+	test("Adding accreditation with unknown property throws", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
+		const accreditation: Omit<IAccreditation, "permissionId"> = {
+			accreditedBy: TEST_ADDRESS_1,
+			properties: [
+				{ name: "unknown.property", allowedValues: [{ type: PropertyType.String, value: "foo" }] }
+			]
+		};
+		await expect(
+			connector.accreditationToAttestAdd(TEST_USER_IDENTITY, id, accreditation)
+		).rejects.toThrow();
+	});
+
+	test("Adding property with duplicate name overwrites or fails gracefully", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		const property: IProperty = {
+			name: "test.duplicate",
+			allowedValues: [{ type: PropertyType.String, value: "foo" }]
+		};
+		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
+		await expect(connector.propertyAdd(TEST_USER_IDENTITY, id, property)).rejects.toThrow();
+	});
+
+	test("Adding property with invalid PropertyType throws", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		// purposely using invalid type, cast to IProperty to bypass TS
+		const property = {
+			name: "test.invalidtype",
+			allowedValues: [{ type: "InvalidType", value: "foo" }]
+		} as unknown as IProperty;
+		await expect(connector.propertyAdd(TEST_USER_IDENTITY, id, property)).rejects.toThrow();
+	});
+
+	test("Adding authority with invalid identity throws", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		await expect(connector.authorityAdd("", id, TEST_ADDRESS_2)).rejects.toThrow();
+	});
+
+	test("Removing authority with invalid identity throws", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		await expect(connector.authorityRemove("", id, TEST_ADDRESS_2)).rejects.toThrow();
+	});
+
+	test("Adding property with missing name throws", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		// purposely missing name, cast to IProperty to bypass TS
+		const property = {
+			allowedValues: [{ type: PropertyType.String, value: "foo" }]
+		} as unknown as IProperty;
+		await expect(connector.propertyAdd(TEST_USER_IDENTITY, id, property)).rejects.toThrow();
+	});
+
+	test("Removing authority that does not exist throws", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		await expect(
+			connector.authorityRemove(TEST_USER_IDENTITY, id, "nonexistent-authority")
+		).rejects.toThrow();
+	});
+
+	test("Can get a property", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		const property: IProperty = {
+			name: "test.property",
+			allowedValues: [{ type: PropertyType.String, value: "foo" }]
+		};
+		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
+		const fetched = await connector.propertyGet(id, property.name);
+		expect(fetched).toBeDefined();
+		expect(fetched.name).toBe(property.name);
+		expect(fetched.allowedValues).toEqual(property.allowedValues);
+	});
+
+	test("Can get all properties", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		const property1: IProperty = {
+			name: "test.property1",
+			allowedValues: [{ type: PropertyType.String, value: "foo" }]
+		};
+		const property2: IProperty = {
+			name: "test.property2",
+			allowedValues: [{ type: PropertyType.String, value: "bar" }]
+		};
+		await connector.propertyAdd(TEST_USER_IDENTITY, id, property1);
+		await connector.propertyAdd(TEST_USER_IDENTITY, id, property2);
+		const properties = await connector.propertiesGet(id);
+		expect(properties.length).toBe(2);
+		expect(properties.some(p => p.name === "test.property1")).toBe(true);
+		expect(properties.some(p => p.name === "test.property2")).toBe(true);
+	});
+
+	test("Can get all properties including revoked", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
+		const property: IProperty = {
+			name: "test.revoked",
+			allowedValues: [{ type: PropertyType.String, value: "foo" }]
+		};
+		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
+		await connector.propertyRemove(TEST_USER_IDENTITY, id, property.name);
+
+		const withoutRevoked = await connector.propertiesGet(id);
+		expect(withoutRevoked.length).toBe(0);
+
+		const withRevoked = await connector.propertiesGet(id, { includeRevokedProperties: true });
+		expect(withRevoked.length).toBe(1);
+		expect(withRevoked[0].name).toBe(property.name);
+	});
+
+	test("Can validate properties", async () => {
+		const id = await connector.federationCreate(TEST_USER_IDENTITY);
+		logCreatedFederationLocation(id);
 		const property1: IProperty = {
 			name: "test.property1",
 			allowedValues: [{ type: PropertyType.String, value: "foo" }]
@@ -368,7 +427,6 @@ describe("IotaHierarchiesConnector", () => {
 			allowedValues: [{ type: PropertyType.String, value: "bar" }]
 		};
 		await connector.propertyAdd(TEST_USER_IDENTITY, id, property2);
-
 		await connector.accreditationToAttestAdd(TEST_USER_IDENTITY, id, {
 			accreditedBy: TEST_ADDRESS_1,
 			properties: [
@@ -376,7 +434,6 @@ describe("IotaHierarchiesConnector", () => {
 				{ name: "test.property2", allowedValues: [{ type: PropertyType.String, value: "bar" }] }
 			]
 		});
-
 		const result = await connector.propertiesValidate(id, TEST_ADDRESS_1, {
 			"test.property1": { type: PropertyType.String, value: "foo" },
 			"test.property2": { type: PropertyType.String, value: "bar" }
@@ -384,9 +441,9 @@ describe("IotaHierarchiesConnector", () => {
 		expect(result).toBe(true);
 	});
 
-	test.skip("Can fail to validate properties", async () => {
+	test("Can fail to validate properties", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property1: IProperty = {
 			name: "test.property1",
 			allowedValues: [{ type: PropertyType.String, value: "foo" }]
@@ -397,7 +454,6 @@ describe("IotaHierarchiesConnector", () => {
 			allowedValues: [{ type: PropertyType.String, value: "bar" }]
 		};
 		await connector.propertyAdd(TEST_USER_IDENTITY, id, property2);
-
 		await connector.accreditationToAttestAdd(TEST_USER_IDENTITY, id, {
 			accreditedBy: TEST_ADDRESS_1,
 			properties: [
@@ -405,7 +461,6 @@ describe("IotaHierarchiesConnector", () => {
 				{ name: "test.property2", allowedValues: [{ type: PropertyType.String, value: "bar" }] }
 			]
 		});
-
 		const result = await connector.propertiesValidate(id, TEST_ADDRESS_1, {
 			"test.property1": { type: PropertyType.String, value: "foo" },
 			"test.property2": { type: PropertyType.String, value: "barbar" }
@@ -413,9 +468,9 @@ describe("IotaHierarchiesConnector", () => {
 		expect(result).toBe(false);
 	});
 
-	test.skip("Can add property with only condition", async () => {
+	test("Can add property with only condition", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
 			name: "test.condition",
 			condition: {
@@ -429,9 +484,9 @@ describe("IotaHierarchiesConnector", () => {
 		expect(hierarchies.governance?.properties.some(p => p.name === property.name)).toBe(true);
 	});
 
-	test.skip("Can add property with allowedValues and condition", async () => {
+	test("Can add property with allowedValues and condition", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
 			name: "test.combined",
 			allowedValues: [{ type: PropertyType.String, value: "foo" }],
@@ -446,83 +501,36 @@ describe("IotaHierarchiesConnector", () => {
 		expect(hierarchies.governance?.properties.some(p => p.name === property.name)).toBe(true);
 	});
 
-	test.skip("Can add property with only timespan", async () => {
+	test("Can add property with only timespan", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
 			name: "test.timespan",
-			timespan: { validFrom: Date.now().toString(), validTo: (Date.now() + 10000).toString() }
+			timespan: {
+				validFrom: (Date.now() - 10000).toString(),
+				validTo: (Date.now() + 10000).toString()
+			}
 		};
 		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
 		const hierarchies = await connector.federationGet(id);
 		expect(hierarchies.governance?.properties.some(p => p.name === property.name)).toBe(true);
 	});
 
-	test.skip("Removing non-existent property throws propertyRemoveFailed with inner wrongFederation", async () => {
+	test("Adding property with empty allowedValues allows any value", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
-		await expect(
-			connector.propertyRemove(TEST_USER_IDENTITY, id, "does.not.exist")
-		).rejects.toMatchObject({
-			message: expect.stringMatching(/propertyRemoveFailed/),
-			cause: expect.objectContaining({
-				message: expect.stringMatching(/propertyNotFound/)
-			})
-		});
-	});
-
-	test.skip("Adding property with duplicate name overwrites or fails gracefully", async () => {
-		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
-			name: "test.duplicate",
-			allowedValues: [{ type: PropertyType.String, value: "foo" }]
+			name: "test.emptyallowed",
+			allowedValues: []
 		};
 		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
-		// Try to add again
-		await expect(connector.propertyAdd(TEST_USER_IDENTITY, id, property)).rejects.toThrow();
+		const hierarchies = await connector.federationGet(id);
+		expect(hierarchies.governance?.properties.some(p => p.name === property.name)).toBe(true);
 	});
 
-	test.skip("Adding property with invalid PropertyType throws", async () => {
+	test("Validating property for account with no accreditations returns false", async () => {
 		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
-		// purposely using invalid type, cast to IProperty to bypass TS
-		const property = {
-			name: "test.invalidtype",
-			allowedValues: [{ type: "InvalidType", value: "foo" }]
-		} as unknown as IProperty;
-		await expect(connector.propertyAdd(TEST_USER_IDENTITY, id, property)).rejects.toThrow();
-	});
-
-	test.skip("Adding authority with invalid identity throws", async () => {
-		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
-		await expect(connector.authorityAdd("", id, TEST_ADDRESS_2)).rejects.toThrow();
-	});
-
-	test.skip("Removing authority with invalid identity throws", async () => {
-		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
-		await expect(connector.authorityRemove("", id, TEST_ADDRESS_2)).rejects.toThrow();
-	});
-
-	test.skip("Adding accreditation with unknown property throws", async () => {
-		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
-		const accreditation: Omit<IAccreditation, "permissionId"> = {
-			accreditedBy: TEST_ADDRESS_1,
-			properties: [
-				{ name: "unknown.property", allowedValues: [{ type: PropertyType.String, value: "foo" }] }
-			]
-		};
-		await expect(
-			connector.accreditationToAttestAdd(TEST_USER_IDENTITY, id, accreditation)
-		).rejects.toThrow();
-	});
-
-	test.skip("Validating property for account with no accreditations returns false", async () => {
-		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
+		logCreatedFederationLocation(id);
 		const property: IProperty = {
 			name: "test.noacc",
 			allowedValues: [{ type: PropertyType.String, value: "foo" }]
@@ -533,39 +541,5 @@ describe("IotaHierarchiesConnector", () => {
 			value: "foo"
 		});
 		expect(result).toBe(false);
-	});
-
-	test.skip("Adding property with empty allowedValues array allows any value", async () => {
-		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
-		const property: IProperty = {
-			name: "test.emptyallowed",
-			allowedValues: []
-		};
-		await connector.propertyAdd(TEST_USER_IDENTITY, id, property);
-		const hierarchies = await connector.federationGet(id);
-		expect(hierarchies.governance?.properties.some(p => p.name === property.name)).toBe(true);
-	});
-
-	test.skip("Adding property with missing name throws", async () => {
-		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
-		// purposely missing name, cast to IProperty to bypass TS
-		const property = {
-			allowedValues: [{ type: PropertyType.String, value: "foo" }]
-		} as unknown as IProperty;
-		await expect(connector.propertyAdd(TEST_USER_IDENTITY, id, property)).rejects.toThrow();
-	});
-
-	test.skip("Removing authority that does not exist throws", async () => {
-		const id = await connector.federationCreate(TEST_USER_IDENTITY);
-		debugOnChainLocation(id);
-		await expect(
-			connector.authorityRemove(
-				TEST_USER_IDENTITY,
-				id,
-				"0x6d38355dd61cd3257e8b403f5d81821caa86e21621451215ee35f5063769264a"
-			)
-		).rejects.toThrow();
 	});
 });

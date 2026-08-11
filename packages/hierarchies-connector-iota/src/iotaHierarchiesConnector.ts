@@ -14,6 +14,7 @@ import {
 	type Transaction,
 	type TransactionBuilder
 } from "@iota/hierarchies/node/index.js";
+import { Transaction as IotaSdkTransaction } from "@iota/iota-sdk/transactions";
 import { ComponentFactory, GeneralError, Guards, Is, NotFoundError, Urn } from "@twin.org/core";
 import { AccountHelper } from "@twin.org/dlt-account";
 import { Iota, type IIotaTransactionBlockResponse } from "@twin.org/dlt-iota";
@@ -946,7 +947,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	}
 
 	/**
-	 * Builds and posts a hierarchies transaction, handling gas station mode when configured.
+	 * Builds and posts a hierarchies transaction, routing through the gas station when configured.
 	 * @param controllerIdentity The identity performing the transaction.
 	 * @param transactionBuilder The transaction builder.
 	 * @param hierarchiesClient The hierarchies client.
@@ -960,6 +961,14 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 		hierarchiesClient: HierarchiesClient,
 		dryRunLabel: string
 	): Promise<IIotaTransactionBlockResponse> {
+		if (Iota.isGasStationEnabled(this._config)) {
+			return this.postGasStationTransaction(
+				controllerIdentity,
+				transactionBuilder,
+				hierarchiesClient
+			);
+		}
+
 		const [txBytes] = await transactionBuilder.build(hierarchiesClient);
 		const transaction = Iota.transactionFromBytes(txBytes);
 		const owner = await AccountHelper.getAddress(
@@ -983,6 +992,55 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 			{
 				dryRunLabel: this._config.enableCostLogging ? dryRunLabel : undefined
 			}
+		);
+
+		this.handleAbortCode(response);
+
+		return response;
+	}
+
+	/**
+	 * Builds and posts a hierarchies transaction using gas station sponsorship.
+	 *
+	 * The programmable transaction is built without coin selection against the sender so the
+	 * sender needs no funds of their own; the gas station attaches its own gas payment.
+	 *
+	 * @param controllerIdentity The identity performing the transaction.
+	 * @param transactionBuilder The transaction builder.
+	 * @param hierarchiesClient The hierarchies client.
+	 * @returns A promise that resolves with the transaction execution result.
+	 * @internal
+	 */
+	private async postGasStationTransaction(
+		controllerIdentity: string,
+		transactionBuilder: TransactionBuilder<Transaction<unknown>>,
+		hierarchiesClient: HierarchiesClient
+	): Promise<IIotaTransactionBlockResponse> {
+		const owner = await AccountHelper.getAddress(
+			this._config,
+			this._vaultConnector,
+			controllerIdentity,
+			this._config.accountAddressIndex ?? 0,
+			this._config.walletAddressIndex ?? 0
+		);
+
+		const programmableTransactionBytes =
+			await transactionBuilder.transaction.buildProgrammableTransaction(hierarchiesClient);
+
+		// The builder returns the bare ProgrammableTransaction BCS, while fromKind expects the
+		// TransactionKind enum wrapper, so prepend its variant tag (0 = ProgrammableTransaction).
+		const kindBytes = new Uint8Array(programmableTransactionBytes.length + 1);
+		kindBytes.set(programmableTransactionBytes, 1);
+		const transaction = IotaSdkTransaction.fromKind(kindBytes);
+
+		const iotaClient = Iota.createClient(this._config);
+		const response = await Iota.prepareAndPostGasStationTransaction(
+			this._config,
+			this._vaultConnector,
+			controllerIdentity,
+			iotaClient,
+			owner,
+			transaction
 		);
 
 		this.handleAbortCode(response);
