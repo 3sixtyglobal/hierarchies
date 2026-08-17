@@ -921,7 +921,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	 * Parse and validate a hierarchies id into the underlying object id.
 	 * @param id The hierarchies id.
 	 * @returns The object id.
-	 * @throws {GeneralError} If the namespace does not match.
+	 * @throws GeneralError If the namespace does not match.
 	 * @internal
 	 */
 	private objectIdFromUrn(id: string): string {
@@ -1052,7 +1052,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	 * Extract the created object id from transaction response object changes.
 	 * @param result The posted transaction result.
 	 * @returns The created object id.
-	 * @throws {GeneralError} If the creation output is invalid or missing.
+	 * @throws GeneralError If the creation output is invalid or missing.
 	 * @internal
 	 */
 	private extractCreatedObjectId(result: IIotaTransactionBlockResponse): string {
@@ -1153,7 +1153,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	 * Maps an IProperty model to a FederationProperty.
 	 * @param property The IProperty to map.
 	 * @returns The mapped FederationProperty.
-	 * @throws {GeneralError} If the allowed value type or property condition constraint is invalid.
+	 * @throws GeneralError If the allowed value type or property condition constraint is invalid.
 	 * @internal
 	 */
 	private mapPropertyModelToFederationProperty(property: IProperty): FederationProperty {
@@ -1374,7 +1374,7 @@ export class IotaHierarchiesConnector implements IHierarchiesConnector {
 	/**
 	 * Handles an abort code from a transaction result if the transaction was aborted.
 	 * @param response The transaction result to handle the abort code from.
-	 * @throws {GeneralError} If the transaction was aborted with a known or unknown abort code.
+	 * @throws GeneralError If the transaction was aborted with a known or unknown abort code.
 	 * @internal
 	 */
 	private handleAbortCode(response: IIotaTransactionBlockResponse): void {
