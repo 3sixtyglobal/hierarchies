@@ -1,7 +1,7 @@
 {
-	"packages/hierarchies-models": "0.9.1-next.3",
-	"packages/hierarchies-connector-iota": "0.9.1-next.3",
-	"packages/hierarchies-connector-entity-storage": "0.9.1-next.3",
-	"packages/hierarchies-service": "0.9.1-next.3",
-	"packages/hierarchies-rest-client": "0.9.1-next.3"
+	"packages/hierarchies-models": "0.9.2-next.2",
+	"packages/hierarchies-connector-iota": "0.9.2-next.2",
+	"packages/hierarchies-connector-entity-storage": "0.9.2-next.2",
+	"packages/hierarchies-service": "0.9.2-next.2",
+	"packages/hierarchies-rest-client": "0.9.2-next.2"
 }

@@ -37,7 +37,7 @@ export class HierarchiesService implements IHierarchiesComponent {
 	/**
 	 * Create a new instance of HierarchiesService.
 	 * @param options The constructor options.
-	 * @throws {GeneralError} If no connectors are registered.
+	 * @throws GeneralError If no connectors are registered.
 	 */
 	constructor(options?: IHierarchiesServiceConstructorOptions) {
 		const names = HierarchiesConnectorFactory.names();
@@ -564,7 +564,7 @@ export class HierarchiesService implements IHierarchiesComponent {
 	 * Get the connector from the federation id.
 	 * @param id The id of the federation in urn format.
 	 * @returns The connector.
-	 * @throws {GeneralError} If the namespace does not match.
+	 * @throws GeneralError If the namespace does not match.
 	 * @internal
 	 */
 	private getConnector(id: string): IHierarchiesConnector {

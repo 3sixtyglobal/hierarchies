@@ -1,0 +1,37 @@
+# Function: hierarchiesAccreditationToAttestAdd()
+
+> **hierarchiesAccreditationToAttestAdd**(`httpRequestContext`, `componentName`, `request`, `baseRouteName`): `Promise`\<`ICreatedResponse`\>
+
+Handles a request to add an accreditation to attest to a federation.
+
+## Parameters
+
+### httpRequestContext
+
+`IHttpRequestContext`
+
+The request context for the API.
+
+### componentName
+
+`string`
+
+The name of the component to use in the routes.
+
+### request
+
+`IHierarchiesAccreditationAddRequest`
+
+The request object.
+
+### baseRouteName
+
+`string`
+
+The base route name for constructing URLs.
+
+## Returns
+
+`Promise`\<`ICreatedResponse`\>
+
+The response object with HTTP status and Location header for the created accreditation.

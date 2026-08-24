@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.2-next.2](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-models-v0.9.2-next.1...hierarchies-models-v0.9.2-next.2) (2026-08-11)
+
+
+### Miscellaneous Chores
+
+* **hierarchies-models:** Synchronize repo versions
+
+## [0.9.2-next.1](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-models-v0.9.2-next.0...hierarchies-models-v0.9.2-next.1) (2026-08-07)
+
+
+### Features
+
+* initial commit ([ac40c22](https://github.com/iotaledger/twin-hierarchies/commit/ac40c2293568c8e08fd0a9b86c7ae54d202f8091))
+* linting and dependency update ([37638d8](https://github.com/iotaledger/twin-hierarchies/commit/37638d8cb3ed1465b03c836506128ebcaa87007b))
+* typescript 6 update ([a9b3e37](https://github.com/iotaledger/twin-hierarchies/commit/a9b3e374df98413b2a98bccbd1bc95cf48a9e210))
+
 ## [0.9.1](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-models-v0.9.1...hierarchies-models-v0.9.1) (2026-07-27)
 
 

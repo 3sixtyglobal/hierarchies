@@ -254,6 +254,1863 @@
 					}
 				}
 			}
+		},
+		"/hierarchies/{federationId}/authorities": {
+			"post": {
+				"operationId": "hierarchiesAuthorityAdd",
+				"summary": "Add an authority to a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"requestBody": {
+					"description": "Request to add an authority to a federation.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/HierarchiesAuthorityAddRequest"
+							},
+							"examples": {
+								"hierarchiesAuthorityAddRequestExample": {
+									"value": {
+										"accountId": "acc-1"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "The rest request ended in created response.",
+						"headers": {
+							"location": {
+								"schema": {
+									"type": "string"
+								},
+								"description": "e.g. hierarchies:iota:auth-1"
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/authorities/{accountId}": {
+			"delete": {
+				"operationId": "hierarchiesAuthorityRemove",
+				"summary": "Remove an authority from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "accountId",
+						"description": "The account id of the authority to remove.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "acc-1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "The rest request ended in success with no data."
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/properties/validate": {
+			"post": {
+				"operationId": "hierarchiesPropertyValidate",
+				"summary": "Validate a property for a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"requestBody": {
+					"description": "Request to validate a property for a federation.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/HierarchiesPropertyValidateRequest"
+							},
+							"examples": {
+								"hierarchiesPropertyValidateRequestExample": {
+									"value": {
+										"accreditedById": "acc-1",
+										"propertyName": "my.property",
+										"propertyValue": {
+											"type": "String",
+											"value": "foo"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Response for property validation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HierarchiesPropertyValidateResponse"
+								},
+								"examples": {
+									"hierarchiesPropertyValidateResponseExample": {
+										"value": {
+											"valid": true
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/properties/validate/batch": {
+			"post": {
+				"operationId": "hierarchiesPropertiesValidate",
+				"summary": "Validate multiple properties for a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"requestBody": {
+					"description": "Request to validate properties for a federation.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/HierarchiesPropertiesValidateRequest"
+							},
+							"examples": {
+								"hierarchiesPropertiesValidateRequestExample": {
+									"value": {
+										"accreditedById": "acc-1",
+										"propertiesToValidate": {
+											"my.property": {
+												"type": "String",
+												"value": "foo"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Response for properties validation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HierarchiesPropertiesValidateResponse"
+								},
+								"examples": {
+									"hierarchiesPropertiesValidateResponseExample": {
+										"value": {
+											"valid": true
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/properties": {
+			"post": {
+				"operationId": "hierarchiesPropertyAdd",
+				"summary": "Add a property to a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"requestBody": {
+					"description": "Request to add a property to a federation.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Property"
+							},
+							"examples": {
+								"hierarchiesPropertyAddRequestExample": {
+									"value": {
+										"name": "my.property",
+										"allowedValues": [
+											{
+												"type": "String",
+												"value": "foo"
+											}
+										]
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"204": {
+						"description": "The rest request ended in success with no data."
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "hierarchiesPropertiesGet",
+				"summary": "Get all properties from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation to get.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "includeRevokedProperties",
+						"description": "Whether to include revoked properties in the retrieved federation, defaults to false.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for getting properties.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HierarchiesPropertiesGetResponse"
+								},
+								"examples": {
+									"hierarchiesPropertiesGetResponseExample": {
+										"value": [
+											{
+												"name": "my.property",
+												"allowedValues": [
+													{
+														"type": "String",
+														"value": "foo"
+													}
+												]
+											}
+										]
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/properties/{propertyName}": {
+			"delete": {
+				"operationId": "hierarchiesPropertyRemove",
+				"summary": "Remove a property from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "propertyName",
+						"description": "The property name to remove.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "my.property"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "The rest request ended in success with no data."
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "hierarchiesPropertyGet",
+				"summary": "Get a property from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "propertyName",
+						"description": "The property name to get.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "my.property"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for getting a property.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Property"
+								},
+								"examples": {
+									"hierarchiesPropertyGetResponseExample": {
+										"value": {
+											"name": "my.property",
+											"allowedValues": [
+												{
+													"type": "String",
+													"value": "foo"
+												}
+											]
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/accreditations/attest": {
+			"post": {
+				"operationId": "hierarchiesAccreditationToAttestAdd",
+				"summary": "Add an accreditation to attest to a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"requestBody": {
+					"description": "Request to add an accreditation to a federation.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/HierarchiesAccreditationAddRequest"
+							},
+							"examples": {
+								"hierarchiesAccreditationToAttestAddRequestExample": {
+									"value": {
+										"accreditedBy": "acc-1",
+										"properties": []
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "The rest request ended in created response.",
+						"headers": {
+							"location": {
+								"schema": {
+									"type": "string"
+								},
+								"description": "e.g. hierarchies:iota:perm-1"
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/accreditations/attest/{accreditedById}/{permissionId}": {
+			"delete": {
+				"operationId": "hierarchiesAccreditationToAttestRemove",
+				"summary": "Remove an accreditation to attest from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "accreditedById",
+						"description": "The accredited by id.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "acc-1"
+					},
+					{
+						"name": "permissionId",
+						"description": "The permission id of the accreditation to remove.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "perm-1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "The rest request ended in success with no data."
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "hierarchiesAccreditationToAttestGet",
+				"summary": "Get an accreditation to attest from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation to get.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "accreditedById",
+						"description": "The id of the authority for which to get the accreditation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "acc-1"
+					},
+					{
+						"name": "permissionId",
+						"description": "The id of the permission for which to get the accreditation.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "perm-1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for getting an accreditation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Accreditation"
+								},
+								"examples": {
+									"hierarchiesAccreditationToAttestGetResponseExample": {
+										"value": {
+											"permissionId": "perm-1",
+											"accreditedBy": "acc-1",
+											"properties": []
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/accreditations/attest/{accreditedById}": {
+			"get": {
+				"operationId": "hierarchiesAccreditationsToAttestGet",
+				"summary": "Get accreditations to attest from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "The id of the federation to get.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "accreditedById",
+						"description": "The id of the authority for which to get the accreditations.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "acc-1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for getting accreditations.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HierarchiesAccreditationsGetResponse"
+								},
+								"examples": {
+									"hierarchiesAccreditationsToAttestGetResponseExample": {
+										"value": [
+											{
+												"permissionId": "perm-1",
+												"accreditedBy": "acc-1",
+												"properties": []
+											}
+										]
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/accreditations/accredit": {
+			"post": {
+				"operationId": "hierarchiesAccreditationToAccreditAdd",
+				"summary": "Add an accreditation to accredit to a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"requestBody": {
+					"description": "Request to add an accreditation to a federation.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/HierarchiesAccreditationAddRequest"
+							},
+							"examples": {
+								"hierarchiesAccreditationToAccreditAddRequestExample": {
+									"value": {
+										"accreditedBy": "acc-1",
+										"properties": []
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "The rest request ended in created response.",
+						"headers": {
+							"location": {
+								"schema": {
+									"type": "string"
+								},
+								"description": "e.g. hierarchies:iota:perm-1"
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/accreditations/accredit/{accreditedById}/{permissionId}": {
+			"delete": {
+				"operationId": "hierarchiesAccreditationToAccreditRemove",
+				"summary": "Remove an accreditation to accredit from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "accreditedById",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "acc-1"
+					},
+					{
+						"name": "permissionId",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "perm-1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "The rest request ended in success with no data."
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "hierarchiesAccreditationToAccreditGet",
+				"summary": "Get an accreditation to accredit from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "accreditedById",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "acc-1"
+					},
+					{
+						"name": "permissionId",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "perm-1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for getting an accreditation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Accreditation"
+								},
+								"examples": {
+									"hierarchiesAccreditationToAccreditGetResponseExample": {
+										"value": {
+											"permissionId": "perm-1",
+											"accreditedBy": "acc-1",
+											"properties": []
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hierarchies/{federationId}/accreditations/accredit/{accreditedById}": {
+			"get": {
+				"operationId": "hierarchiesAccreditationsToAccreditGet",
+				"summary": "Get accreditations to accredit from a federation",
+				"tags": [
+					"Hierarchies"
+				],
+				"parameters": [
+					{
+						"name": "federationId",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "hierarchies:iota:123"
+					},
+					{
+						"name": "accreditedById",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "acc-1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for getting accreditations.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HierarchiesAccreditationsGetResponse"
+								},
+								"examples": {
+									"hierarchiesAccreditationsToAccreditGetResponseExample": {
+										"value": [
+											{
+												"permissionId": "perm-1",
+												"accreditedBy": "acc-1",
+												"properties": []
+											}
+										]
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "errorMessage",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "errorMessage"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -394,6 +2251,47 @@
 					"properties"
 				]
 			},
+			"HierarchiesAccreditationAddRequest": {
+				"description": "The request data.",
+				"type": "object",
+				"properties": {
+					"accreditedBy": {
+						"type": "string",
+						"description": "The identifier of the entity that granted the accreditation."
+					},
+					"properties": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Property"
+						},
+						"description": "Properties associated with this accreditation."
+					}
+				},
+				"required": [
+					"accreditedBy",
+					"properties"
+				]
+			},
+			"HierarchiesAccreditationsGetResponse": {
+				"type": "array",
+				"items": {
+					"$ref": "#/components/schemas/Accreditation"
+				},
+				"description": "The response body."
+			},
+			"HierarchiesAuthorityAddRequest": {
+				"type": "object",
+				"properties": {
+					"accountId": {
+						"type": "string",
+						"description": "The account id of the authority to add."
+					}
+				},
+				"required": [
+					"accountId"
+				],
+				"description": "The request data."
+			},
 			"HierarchiesFederationCreateRequest": {
 				"type": "object",
 				"properties": {
@@ -410,6 +2308,82 @@
 					}
 				},
 				"description": "The request data."
+			},
+			"HierarchiesPropertiesGetResponse": {
+				"type": "array",
+				"items": {
+					"$ref": "#/components/schemas/Property"
+				},
+				"description": "The response body."
+			},
+			"HierarchiesPropertiesValidateRequest": {
+				"type": "object",
+				"properties": {
+					"accreditedById": {
+						"type": "string",
+						"description": "The accredited by id."
+					},
+					"propertiesToValidate": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/PropertyValue"
+						},
+						"description": "The properties to validate."
+					}
+				},
+				"required": [
+					"accreditedById",
+					"propertiesToValidate"
+				],
+				"description": "The request data."
+			},
+			"HierarchiesPropertiesValidateResponse": {
+				"type": "object",
+				"properties": {
+					"valid": {
+						"type": "boolean",
+						"description": "Whether all provided properties are valid."
+					}
+				},
+				"required": [
+					"valid"
+				],
+				"description": "The response body."
+			},
+			"HierarchiesPropertyValidateRequest": {
+				"type": "object",
+				"properties": {
+					"accreditedById": {
+						"type": "string",
+						"description": "The accredited by id."
+					},
+					"propertyName": {
+						"type": "string",
+						"description": "The property name to validate."
+					},
+					"propertyValue": {
+						"$ref": "#/components/schemas/PropertyValue"
+					}
+				},
+				"required": [
+					"accreditedById",
+					"propertyName",
+					"propertyValue"
+				],
+				"description": "The request data."
+			},
+			"HierarchiesPropertyValidateResponse": {
+				"type": "object",
+				"properties": {
+					"valid": {
+						"type": "boolean",
+						"description": "Whether the provided property is valid."
+					}
+				},
+				"required": [
+					"valid"
+				],
+				"description": "The response body."
 			},
 			"Property": {
 				"description": "Represents a named property with optional allowed values, a condition, and a validity timespan.",
