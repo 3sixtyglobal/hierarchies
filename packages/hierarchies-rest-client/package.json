@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/hierarchies-rest-client",
-	"version": "0.9.2-next.2",
+	"version": "0.9.3-next.0",
 	"description": "HTTP client for calling service endpoints from applications.",
 	"repository": {
 		"type": "git",
@@ -36,7 +36,7 @@
 		"@twin.org/web": "next"
 	},
 	"devDependencies": {
-		"@twin.org/hierarchies-models": "0.9.2-next.2",
+		"@twin.org/hierarchies-models": "0.9.3-next.0",
 		"@twin.org/nameof-transformer": "next",
 		"@twin.org/nameof-vitest-plugin": "next",
 		"@twin.org/validate-locales": "next",

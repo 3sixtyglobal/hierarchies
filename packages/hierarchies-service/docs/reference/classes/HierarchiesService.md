@@ -28,7 +28,7 @@ The constructor options.
 
 #### Throws
 
-If no connectors are registered.
+GeneralError If no connectors are registered.
 
 ## Properties
 

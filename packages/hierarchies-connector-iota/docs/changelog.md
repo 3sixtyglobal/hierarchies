@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.9.2](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-connector-iota-v0.9.2...hierarchies-connector-iota-v0.9.2) (2026-08-24)
+
+
+### Features
+
+* initial commit ([ac40c22](https://github.com/iotaledger/twin-hierarchies/commit/ac40c2293568c8e08fd0a9b86c7ae54d202f8091))
+* release to production ([#17](https://github.com/iotaledger/twin-hierarchies/issues/17)) ([46618eb](https://github.com/iotaledger/twin-hierarchies/commit/46618ebc8c678d65414eacf5defd7bf5b32ecea4))
+* release to production ([#18](https://github.com/iotaledger/twin-hierarchies/issues/18)) ([f7658fe](https://github.com/iotaledger/twin-hierarchies/commit/f7658fe9ea469758e20230bc1b062e81d0a44be7))
+* release to production ([#27](https://github.com/iotaledger/twin-hierarchies/issues/27)) ([d14ac22](https://github.com/iotaledger/twin-hierarchies/commit/d14ac22765a4011afb70d34f4970a2423ccca387))
+* release to production ([#7](https://github.com/iotaledger/twin-hierarchies/issues/7)) ([dc6e81e](https://github.com/iotaledger/twin-hierarchies/commit/dc6e81e89976ca354b447b4c148ac170be906963))
+* remove default loggers ([c85a836](https://github.com/iotaledger/twin-hierarchies/commit/c85a836be050948629cf606e5449085468bcfb3f))
+* typescript 6 update ([a9b3e37](https://github.com/iotaledger/twin-hierarchies/commit/a9b3e374df98413b2a98bccbd1bc95cf48a9e210))
+* vault signers ([#1](https://github.com/iotaledger/twin-hierarchies/issues/1)) ([19d4fa1](https://github.com/iotaledger/twin-hierarchies/commit/19d4fa1ddd0209dd60d4daaedccc6908867e09d1))
+
+
+### Bug Fixes
+
+* use async getStore in tests ([de3a776](https://github.com/iotaledger/twin-hierarchies/commit/de3a77614199ba1ef8621725274a6a877502535b))
+
 ## [0.9.2-next.2](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-connector-iota-v0.9.2-next.1...hierarchies-connector-iota-v0.9.2-next.2) (2026-08-11)
 
 
