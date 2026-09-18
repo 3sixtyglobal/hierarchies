@@ -11,7 +11,7 @@ export class Federation {
 	/**
 	 * The identity of the federation record.
 	 */
-	@property({ type: "string", isPrimary: true })
+	@property({ type: "string", isPrimary: true, maxLength: 255 })
 	public id!: string;
 
 	/**
@@ -35,6 +35,6 @@ export class Federation {
 	/**
 	 * The controller identity.
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", maxLength: 255 })
 	public controllerIdentity!: string;
 }
