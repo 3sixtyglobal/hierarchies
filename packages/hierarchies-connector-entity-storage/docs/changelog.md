@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.10.1-next.1](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-connector-entity-storage-v0.10.1-next.0...hierarchies-connector-entity-storage-v0.10.1-next.1) (2026-09-18)
+
+
+### Features
+
+* complete implementation ([35ca46c](https://github.com/iotaledger/twin-hierarchies/commit/35ca46c8ebe9636fff9002fb6fb7ca19a582fbff))
+* improve entity schemas ([3f6b5e2](https://github.com/iotaledger/twin-hierarchies/commit/3f6b5e2c12afb3f3fc8f4f5e10b0e15214f7ee6c))
+* initial commit ([ac40c22](https://github.com/iotaledger/twin-hierarchies/commit/ac40c2293568c8e08fd0a9b86c7ae54d202f8091))
+* linting and dependency update ([37638d8](https://github.com/iotaledger/twin-hierarchies/commit/37638d8cb3ed1465b03c836506128ebcaa87007b))
+* remove default loggers ([c85a836](https://github.com/iotaledger/twin-hierarchies/commit/c85a836be050948629cf606e5449085468bcfb3f))
+* typescript 6 update ([1f5b06e](https://github.com/iotaledger/twin-hierarchies/commit/1f5b06ee24c8cfa774c28488a5bf92a2b2af0f3c))
+* typescript 6 update ([a9b3e37](https://github.com/iotaledger/twin-hierarchies/commit/a9b3e374df98413b2a98bccbd1bc95cf48a9e210))
+
+
+### Bug Fixes
+
+* use async getStore in tests ([de3a776](https://github.com/iotaledger/twin-hierarchies/commit/de3a77614199ba1ef8621725274a6a877502535b))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/hierarchies-models bumped from 0.10.1-next.0 to 0.10.1-next.1
+
 ## [0.10.0](https://github.com/iotaledger/twin-hierarchies/compare/hierarchies-connector-entity-storage-v0.10.0...hierarchies-connector-entity-storage-v0.10.0) (2026-09-16)
 
 
