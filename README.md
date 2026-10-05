@@ -13,3 +13,7 @@ Hierarchies provides modular components for building, integrating, and extending
 ## Contributing
 
 To contribute to this package see the guidelines for building and publishing in [CONTRIBUTING](./CONTRIBUTING.md)
+
+## Origin
+
+This repository is derived from the original [iotaledger/twin-hierarchies](https://github.com/iotaledger/twin-hierarchies) repository.

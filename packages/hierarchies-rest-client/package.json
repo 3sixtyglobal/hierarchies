@@ -4,7 +4,7 @@
 	"description": "HTTP client for calling service endpoints from applications.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/iotaledger/twin-hierarchies.git",
+		"url": "git+https://github.com/3sixtyglobal/twin-hierarchies.git",
 		"directory": "packages/hierarchies-rest-client"
 	},
 	"author": "martyn.janes@iota.org",
@@ -78,7 +78,7 @@
 		"assets"
 	],
 	"bugs": {
-		"url": "git+https://github.com/iotaledger/twin-hierarchies/issues"
+		"url": "git+https://github.com/3sixtyglobal/twin-hierarchies/issues"
 	},
 	"homepage": "https://twindev.org"
 }

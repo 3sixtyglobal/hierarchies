@@ -15,3 +15,7 @@ Usage of the APIs is shown in the examples [docs/examples.md](docs/examples.md)
 ## Changelog
 
 The changes between each version can be found in [docs/changelog.md](docs/changelog.md)
+
+## Origin
+
+This package is derived from the original [iotaledger/twin-hierarchies](https://github.com/iotaledger/twin-hierarchies/tree/next/packages/hierarchies-connector-entity-storage) repository.

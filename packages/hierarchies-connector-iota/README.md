@@ -16,7 +16,7 @@ To perform testing of this component it may be necessary to launch a local insta
 docker run -d --name twin-gas-station-test -p 6379:6379 -p 9527:9527 -p 9184:9184 -e IOTA_NODE_URL="https://api.testnet.iota.cafe" -e GAS_STATION_AUTH="qEyCL6d9BKKFl/tfDGAKeGFkhUlf7FkqiGV7Xw4JUsI=" -e GAS_STATION_KEYPAIR="..." twinfoundation/twin-gas-station-test:latest
 ```
 
-To generate `GAS_STATION_KEYPAIR` see <https://github.com/iotaledger/twin-dlt/blob/main/packages/dlt-iota/README.md>
+To generate `GAS_STATION_KEYPAIR` see <https://github.com/3sixtyglobal/twin-dlt/blob/main/packages/dlt-iota/README.md>
 
 ## Examples
 
@@ -25,3 +25,7 @@ Usage of the APIs is shown in the examples [docs/examples.md](docs/examples.md)
 ## Changelog
 
 The changes between each version can be found in [docs/changelog.md](docs/changelog.md)
+
+## Origin
+
+This package is derived from the original [iotaledger/twin-hierarchies](https://github.com/iotaledger/twin-hierarchies/tree/next/packages/hierarchies-connector-iota) repository.
