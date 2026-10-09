@@ -5,7 +5,7 @@ The package serves as a foundational component within the Hierarchies repository
 ## Installation
 
 ```shell
-npm install @twin.org/hierarchies-models
+npm install @3sixty/hierarchies-models
 ```
 
 ## Examples

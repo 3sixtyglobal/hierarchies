@@ -5,7 +5,7 @@ This package provides interfaces and types for working with federations, propert
 ## HierarchiesConnectorFactory
 
 ```typescript
-import { HierarchiesConnectorFactory } from '@twin.org/hierarchies-models';
+import { HierarchiesConnectorFactory } from '@3sixty/hierarchies-models';
 
 // Register a connector implementation
 HierarchiesConnectorFactory.register('custom', () => new CustomHierarchiesConnector());
@@ -17,7 +17,7 @@ const connector = HierarchiesConnectorFactory.create('custom');
 ## IHierarchiesConnector
 
 ```typescript
-import type { IHierarchiesConnector, IProperty } from '@twin.org/hierarchies-models';
+import type { IHierarchiesConnector, IProperty } from '@3sixty/hierarchies-models';
 
 async function addProperty(
   connector: IHierarchiesConnector,
@@ -36,7 +36,7 @@ async function getFederation(connector: IHierarchiesConnector, federationId: str
 ## IFederation
 
 ```typescript
-import type { IFederation } from '@twin.org/hierarchies-models';
+import type { IFederation } from '@3sixty/hierarchies-models';
 
 function printRootAuthorities(federation: IFederation) {
   federation.rootAuthorities.forEach(auth => {
@@ -48,8 +48,8 @@ function printRootAuthorities(federation: IFederation) {
 ## IProperty
 
 ```typescript
-import type { IProperty, IPropertyValue } from '@twin.org/hierarchies-models';
-import { PropertyType } from '@twin.org/hierarchies-models';
+import type { IProperty, IPropertyValue } from '@3sixty/hierarchies-models';
+import { PropertyType } from '@3sixty/hierarchies-models';
 
 const property: IProperty = {
   name: 'access.level',
@@ -63,7 +63,7 @@ console.log(property.allowedValues?.[0].value); // "admin"
 ## IAccreditation
 
 ```typescript
-import type { IAccreditation, IProperty } from '@twin.org/hierarchies-models';
+import type { IAccreditation, IProperty } from '@3sixty/hierarchies-models';
 
 const accreditation: IAccreditation = {
   permissionId: 'perm-1',

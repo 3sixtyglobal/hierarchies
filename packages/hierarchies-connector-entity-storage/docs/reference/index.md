@@ -1,4 +1,4 @@
-# @twin.org/hierarchies-connector-entity-storage
+# @3sixty/hierarchies-connector-entity-storage
 
 ## Classes
 

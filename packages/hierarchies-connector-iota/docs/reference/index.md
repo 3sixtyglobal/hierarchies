@@ -1,4 +1,4 @@
-# @twin.org/hierarchies-connector-iota
+# @3sixty/hierarchies-connector-iota
 
 ## Classes
 

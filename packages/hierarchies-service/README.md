@@ -5,7 +5,7 @@ This package delivers the service orchestration layer for Hierarchies, exposing 
 ## Installation
 
 ```shell
-npm install @twin.org/hierarchies-service
+npm install @3sixty/hierarchies-service
 ```
 
 ## Examples

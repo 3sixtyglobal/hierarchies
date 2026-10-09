@@ -5,7 +5,7 @@ This package provides a connector for managing federations, authorities, and pro
 ## Creating a Connector
 
 ```typescript
-import { EntityStorageHierarchiesConnector } from '@twin.org/hierarchies-connector-entity-storage';
+import { EntityStorageHierarchiesConnector } from '@3sixty/hierarchies-connector-entity-storage';
 
 const connector = new EntityStorageHierarchiesConnector();
 ```
@@ -20,7 +20,7 @@ console.log(federationId); // "urn:entity-storage:federation:..."
 ## Adding a Property Using PropertyType Enum
 
 ```typescript
-import { PropertyType } from '@twin.org/hierarchies-models';
+import { PropertyType } from '@3sixty/hierarchies-models';
 
 const property = {
   name: 'access.level',

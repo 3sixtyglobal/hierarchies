@@ -1,7 +1,7 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { EntityStorageHierarchiesConnector } from "@twin.org/hierarchies-connector-entity-storage";
-import { HierarchiesConnectorFactory } from "@twin.org/hierarchies-models";
+import { EntityStorageHierarchiesConnector } from "@3sixty/hierarchies-connector-entity-storage";
+import { HierarchiesConnectorFactory } from "@3sixty/hierarchies-models";
 import { HierarchiesService } from "../src/hierarchiesService.js";
 
 describe("HierarchiesService", () => {

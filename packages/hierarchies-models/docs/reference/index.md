@@ -1,4 +1,4 @@
-# @twin.org/hierarchies-models
+# @3sixty/hierarchies-models
 
 ## Interfaces
 

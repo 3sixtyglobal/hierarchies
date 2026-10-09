@@ -5,7 +5,7 @@ This package provides a client for calling Hierarchies service endpoints from ap
 ## Installation
 
 ```shell
-npm install @twin.org/hierarchies-rest-client
+npm install @3sixty/hierarchies-rest-client
 ```
 
 ## Examples

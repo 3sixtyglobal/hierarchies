@@ -1,5 +1,22 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
+import { ComponentFactory, GeneralError, Guards, Is, NotFoundError, Urn } from "@3sixty/core";
+import { AccountHelper } from "@3sixty/dlt-account";
+import { Iota, type IIotaTransactionBlockResponse } from "@3sixty/dlt-iota";
+import {
+	PropertyConstraintType,
+	PropertyType,
+	type IAccreditation,
+	type IFederation,
+	type IHierarchiesConnector,
+	type IProperty,
+	type IPropertyCondition,
+	type IPropertyValue,
+	type ITimespan
+} from "@3sixty/hierarchies-models";
+import type { ILoggingComponent } from "@3sixty/logging-models";
+import { nameof } from "@3sixty/nameof";
+import { VaultConnectorFactory, type IVaultConnector } from "@3sixty/vault-models";
 import {
 	FederationProperty,
 	HierarchiesClient,
@@ -15,23 +32,6 @@ import {
 	type TransactionBuilder
 } from "@iota/hierarchies/node/index.js";
 import { Transaction as IotaSdkTransaction } from "@iota/iota-sdk/transactions";
-import { ComponentFactory, GeneralError, Guards, Is, NotFoundError, Urn } from "@twin.org/core";
-import { AccountHelper } from "@twin.org/dlt-account";
-import { Iota, type IIotaTransactionBlockResponse } from "@twin.org/dlt-iota";
-import {
-	PropertyConstraintType,
-	PropertyType,
-	type IAccreditation,
-	type IFederation,
-	type IHierarchiesConnector,
-	type IProperty,
-	type IPropertyCondition,
-	type IPropertyValue,
-	type ITimespan
-} from "@twin.org/hierarchies-models";
-import type { ILoggingComponent } from "@twin.org/logging-models";
-import { nameof } from "@twin.org/nameof";
-import { VaultConnectorFactory, type IVaultConnector } from "@twin.org/vault-models";
 import type { IIotaHierarchiesConnectorConfig } from "./models/IIotaHierarchiesConnectorConfig.js";
 import type { IIotaHierarchiesConnectorConstructorOptions } from "./models/IIotaHierarchiesConnectorConstructorOptions.js";
 

@@ -1,7 +1,7 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { entity, property } from "@twin.org/entity";
-import type { IGovernance, IRootAuthority } from "@twin.org/hierarchies-models";
+import { entity, property } from "@3sixty/entity";
+import type { IGovernance, IRootAuthority } from "@3sixty/hierarchies-models";
 
 /**
  * Class describing a federation record.

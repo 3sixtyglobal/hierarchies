@@ -1,12 +1,12 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { Urn } from "@twin.org/core";
+import { Urn } from "@3sixty/core";
 import {
 	PropertyConstraintType,
 	PropertyType,
 	type IAccreditation,
 	type IProperty
-} from "@twin.org/hierarchies-models";
+} from "@3sixty/hierarchies-models";
 import {
 	TEST_ADDRESS_1,
 	TEST_ADDRESS_2,

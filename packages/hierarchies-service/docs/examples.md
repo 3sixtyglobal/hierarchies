@@ -5,7 +5,7 @@ This package provides a service for orchestrating federations, authorities, and 
 ## Creating a Service
 
 ```typescript
-import { HierarchiesService } from '@twin.org/hierarchies-service';
+import { HierarchiesService } from '@3sixty/hierarchies-service';
 
 const service = new HierarchiesService();
 ```
@@ -20,7 +20,7 @@ console.log(federationId); // "urn:..."
 ## Adding a Property Using PropertyType Enum
 
 ```typescript
-import { PropertyType } from '@twin.org/hierarchies-models';
+import { PropertyType } from '@3sixty/hierarchies-models';
 
 const property = {
   name: 'access.level',

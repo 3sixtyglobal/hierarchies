@@ -1,4 +1,4 @@
-# TWIN Hierarchies
+# 3Sixty Hierarchies
 
 Hierarchies provides modular components for building, integrating, and extending digital asset hierarchy workflows. The repository enables teams to compose, connect, and orchestrate service, client, and connector layers using a shared contract for interoperability. Its structure supports both rapid prototyping and production-grade extension, allowing placeholder integrations to be swapped for full implementations as requirements evolve.
 

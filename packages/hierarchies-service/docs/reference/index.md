@@ -1,4 +1,4 @@
-# @twin.org/hierarchies-service
+# @3sixty/hierarchies-service
 
 ## Classes
 

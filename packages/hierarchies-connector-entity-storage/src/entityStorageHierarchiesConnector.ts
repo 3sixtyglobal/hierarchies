@@ -10,11 +10,11 @@ import {
 	ObjectHelper,
 	RandomHelper,
 	Urn
-} from "@twin.org/core";
+} from "@3sixty/core";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
-} from "@twin.org/entity-storage-models";
+} from "@3sixty/entity-storage-models";
 import {
 	type IAccreditation,
 	type IFederation,
@@ -23,10 +23,10 @@ import {
 	type IPropertyValue,
 	PropertyConstraintType,
 	PropertyType
-} from "@twin.org/hierarchies-models";
-import type { ILoggingComponent } from "@twin.org/logging-models";
-import { nameof } from "@twin.org/nameof";
-import type { IWalletConnector } from "@twin.org/wallet-models";
+} from "@3sixty/hierarchies-models";
+import type { ILoggingComponent } from "@3sixty/logging-models";
+import { nameof } from "@3sixty/nameof";
+import type { IWalletConnector } from "@3sixty/wallet-models";
 import type { Federation } from "./entities/federation.js";
 import type { IEntityStorageHierarchiesConnectorConstructorOptions } from "./models/IEntityStorageHierarchiesConnectorConstructorOptions.js";
 

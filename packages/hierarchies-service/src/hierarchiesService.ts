@@ -1,6 +1,6 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { GeneralError, Guards, Urn } from "@twin.org/core";
+import { GeneralError, Guards, Urn } from "@3sixty/core";
 import {
 	HierarchiesConnectorFactory,
 	type IAccreditation,
@@ -9,8 +9,8 @@ import {
 	type IHierarchiesConnector,
 	type IProperty,
 	type IPropertyValue
-} from "@twin.org/hierarchies-models";
-import { nameof } from "@twin.org/nameof";
+} from "@3sixty/hierarchies-models";
+import { nameof } from "@3sixty/nameof";
 import type { IHierarchiesServiceConstructorOptions } from "./models/IHierarchiesServiceConstructorOptions.js";
 
 /**

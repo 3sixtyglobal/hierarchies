@@ -1,4 +1,4 @@
-# @twin.org/hierarchies-rest-client
+# @3sixty/hierarchies-rest-client
 
 ## Classes
 

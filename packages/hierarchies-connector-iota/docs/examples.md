@@ -5,8 +5,8 @@ This package provides a connector for managing federations, authorities, and pro
 ## Creating a Connector
 
 ```typescript
-import { IotaHierarchiesConnector } from '@twin.org/hierarchies-connector-iota';
-import { PropertyType } from '@twin.org/hierarchies-models';
+import { IotaHierarchiesConnector } from '@3sixty/hierarchies-connector-iota';
+import { PropertyType } from '@3sixty/hierarchies-models';
 
 const connector = new IotaHierarchiesConnector({
   config: {
@@ -27,7 +27,7 @@ console.log(federationId); // "urn:iota:federation:..."
 ## Adding a Property Using PropertyType Enum
 
 ```typescript
-import { PropertyType } from '@twin.org/hierarchies-models';
+import { PropertyType } from '@3sixty/hierarchies-models';
 
 const property = {
   name: 'access.level',

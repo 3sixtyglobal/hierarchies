@@ -1,11 +1,11 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import path from "node:path";
-import { ComponentFactory } from "@twin.org/core";
-import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
-import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
-import { nameof } from "@twin.org/nameof";
-import type { IWalletConnector } from "@twin.org/wallet-models";
+import { ComponentFactory } from "@3sixty/core";
+import { MemoryEntityStorageConnector } from "@3sixty/entity-storage-connector-memory";
+import { EntityStorageConnectorFactory } from "@3sixty/entity-storage-models";
+import { nameof } from "@3sixty/nameof";
+import type { IWalletConnector } from "@3sixty/wallet-models";
 import * as dotenv from "dotenv";
 import type { Federation } from "../src/entities/federation.js";
 import { initSchema } from "../src/schema.js";

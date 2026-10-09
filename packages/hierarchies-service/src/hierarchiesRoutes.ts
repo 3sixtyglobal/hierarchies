@@ -9,9 +9,9 @@ import {
 	type INoContentResponse,
 	type IRestRoute,
 	type ITag
-} from "@twin.org/api-models";
-import { ContextIdHelper, ContextIdKeys, ContextIdStore } from "@twin.org/context";
-import { Coerce, ComponentFactory, Guards } from "@twin.org/core";
+} from "@3sixty/api-models";
+import { ContextIdHelper, ContextIdKeys, ContextIdStore } from "@3sixty/context";
+import { Coerce, ComponentFactory, Guards } from "@3sixty/core";
 import type {
 	IHierarchiesAccreditationAddRequest,
 	IHierarchiesAccreditationGetRequest,
@@ -35,9 +35,9 @@ import type {
 	IHierarchiesPropertyRemoveRequest,
 	IHierarchiesPropertyValidateRequest,
 	IHierarchiesPropertyValidateResponse
-} from "@twin.org/hierarchies-models";
-import { nameof } from "@twin.org/nameof";
-import { HttpStatusCode, type IHttpHeaders } from "@twin.org/web";
+} from "@3sixty/hierarchies-models";
+import { nameof } from "@3sixty/nameof";
+import { HttpStatusCode, type IHttpHeaders } from "@3sixty/web";
 
 /**
  * Source identifier used when constructing guard and error messages within routes.

@@ -10,6 +10,7 @@
 	"versioning": "prerelease",
 	"prerelease": true,
 	"prerelease-type": "next",
+	"last-release-sha": "70f179a1ab7eb1ac49f515173e99687fcf753bc4",
 	"packages": {
 		"packages/hierarchies-models": {
 			"package-name": "hierarchies-models",

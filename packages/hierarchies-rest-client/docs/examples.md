@@ -5,7 +5,7 @@ This package provides a REST client for interacting with federations, authoritie
 ## Creating a REST Client
 
 ```typescript
-import { HierarchiesRestClient } from '@twin.org/hierarchies-rest-client';
+import { HierarchiesRestClient } from '@3sixty/hierarchies-rest-client';
 
 const client = new HierarchiesRestClient({
   baseUrl: 'https://api.example.com',
@@ -23,7 +23,7 @@ console.log(federationId); // "urn:..."
 ## Adding a Property Using PropertyType Enum
 
 ```typescript
-import { PropertyType } from '@twin.org/hierarchies-models';
+import { PropertyType } from '@3sixty/hierarchies-models';
 
 const property = {
   name: 'access.level',

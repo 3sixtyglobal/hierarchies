@@ -5,7 +5,7 @@ This package is designed to provide an entity storage connector for Hierarchies,
 ## Installation
 
 ```shell
-npm install @twin.org/hierarchies-connector-entity-storage
+npm install @3sixty/hierarchies-connector-entity-storage
 ```
 
 ## Examples

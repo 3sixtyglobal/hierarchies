@@ -8,6 +8,7 @@
 	"release-type": "node",
 	"initial-version": "0.0.1",
 	"versioning": "default",
+	"last-release-sha": "79391b3f83baef8520b9f7072ab8e24c1a7d5252",
 	"packages": {
 		"packages/hierarchies-models": {
 			"package-name": "hierarchies-models",
